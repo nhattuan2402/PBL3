@@ -1,0 +1,296 @@
+
+button:hover{
+    background-color: whitesmoke;
+    color: var(--brand-color);
+    border-color: var(--brand-color);
+    border-color: var(--brand-color);
+}
+button{
+    border: none;
+    background-color: var(--white-color);
+}
+.thongBao {
+    padding-top: 12px;
+    background-color: var(--brand-color);
+    color:var(--white-color);
+    text-align: center;
+    height: 4rem;
+    position: relative;
+}
+.navbar {
+    margin: 0rem 15px;
+    background-color: var(--white-color);
+    padding-bottom: 5px;
+}
+.navbar-brand img {
+    height: 45px;
+    width: 110px;
+    display: block;
+    display: inline-flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.icon-bar{
+    background-color: var(--white-color);
+}
+.navbar button,.dangky {
+    color: var(--white-color);
+    border-radius: 5px;
+    background-color: var(--brand-color);
+    cursor: pointer;
+}
+
+/*
+    form dang ky
+*/
+.navbar__dangKy {
+    position: absolute;
+    z-index: 1;
+    margin: 0 40rem;
+    display: none;
+}
+
+.navbar__formdangky button:hover{
+    background-color: whitesmoke;
+    color: var(--brand-color);
+    border-color: var(--brand-color);
+    border: 2px solid;
+}
+.navbar__formdangky {
+    width: 60rem;
+    margin-top:  5rem;
+    background-color: var(--white-color);
+    border: 1px solid var(--vien-color);
+    box-shadow: -2px 1px 90px -2px var(--brand-color);
+    border-radius: 12px;
+    padding: 4rem;
+    position: fixed;
+}
+.navbar__formdangky__icon-exit{
+    transform: translateX(70%);
+    top: -21px;
+    cursor: pointer;
+    font-size: large;
+}
+.navbar__formdangky__icon-exit:hover {
+    color: var(--brand-color);
+    font-weight: bolder;
+    font-size: larger;
+}
+.navbar__dangKy{
+    color:var(--text-grey-color);
+    text-align: left;
+}
+.formdangky-row{
+    font-family: sans-serif;
+    margin: 0.5rem 0;
+}
+.form-title{
+    font-weight: bolder;
+}
+.title_enroll{
+    color: var(--text-greyer-color);
+    font-size: xx-large;
+}
+.desc{
+    margin-bottom: 2rem;
+}
+.formernoll-gender{
+    margin: 0 3rem;
+}
+.move-top-label{
+    font-weight: lighter;
+    font-size: x-small;
+}
+.check-item{
+    margin-left: 1.5rem;
+    color: var(--text-greyer-color);
+}
+#checkbox{
+    transform: translateY(20%);
+}
+.btnSubmitEnroll{
+    background-color: var(--brand-color);
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    color: var(--white-color);
+}
+/* 
+    hết phần form dang ký
+*/
+.jumbotron {
+    background-color: var(--brand-color);
+    background-image: url("../images/images1.0/backgroud1.0.jpg");
+    background-repeat: no-repeat;
+    padding: 25rem 0;
+}
+.slogan {
+    color: var(--brand-color);
+    font-weight: bolder;
+    font-family: sans-serif;
+    font-style: normal;
+    font-size: 7rem;   
+}
+.timkiemchuyenbay{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    color: var(--text-greyer-color);
+    float: left;
+    background-color: var(--white-color);
+    text-align: center;
+    height: 4rem;
+    box-shadow: -2px 1px 9px -2px var(--brand-color);
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+}
+.timkiemchuyenbay__phantu {
+    flex:1;
+    padding-top:1rem;
+    border: 1px solid var(--vien-color);
+    position: relative;
+    cursor: pointer;
+}
+.timkiemchuyenbay__phantu button{
+    width: 80%;
+}
+.timkiemchuyenbay__phantu button:hover{
+    color: var(--text-grey-color);
+    background-color: var(--white-color);
+}
+.timkiemchuyenbay__phantu:hover{
+    flex:1;
+    border:2px solid  var(--brand-color) !important;
+    border-radius: 0.5rem !important;
+}
+.timkiemchuyenbay__phantu:first-child {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+    border-bottom-left-radius: 0.5rem;
+}
+.timkiemchuyenbay__phantu-chonThanhPho{
+    display: none;
+    position: absolute;
+    box-shadow: -2px 1px 9px -2px var(--brand-color);
+    text-align: left;
+    border-radius: 0.5rem;
+    background-color: var(--white-color);
+    top: 100%;
+    left: 5%;
+
+}
+.timkiemchuyenbay__phantu-list{
+    list-style: none;
+    font-size: medium;
+    margin-bottom: 0;
+    padding: 23px;
+    list-style: none;
+    padding: 1px 19px;
+}
+.timkiemchuyenbay__phantu-list-item{
+    color: var(--black-color);
+    margin: 1rem 0;
+    font-family: sans-serif;
+    width: 25rem;
+    cursor: pointer;
+}
+.btn_diemkhoihanh:focus ~ .timkiemchuyenbay__phantu-chonThanhPho--Diemdi {
+    display: block;
+}
+.btn_diemDen:focus ~ .timkiemchuyenbay__phantu-chonThanhPho--Diemden {
+    display: block;
+}
+.timkiemchuyenbay__phantu-list-item:hover{
+    background-color: var(--brand-color);
+    color: var(--white-color);
+    border-radius: 0.5rem;
+    padding: 1px 7px;
+}
+
+.timkiemchuyenbay__phantu--hienThiSoHanhKhach{ 
+    position: relative;
+    padding: 1rem;
+    border-right-color: var(--white-color);
+}
+.timkiemchuyenbay__phantu--btnTimChuyenBay {
+    border-radius: 0.5rem;
+    background-color: var(--brand-color);
+    color: var(--white-color);
+    border-color: var(--brand-color);
+    padding: 0;
+}
+.demSoKhachHang {
+    color: var(--text-greyer-color);
+    text-align: left;
+    border-radius: 1rem;
+    position: absolute;
+    bottom: -20;
+    right: -30;
+    background-color: var(--white-color);
+    display: none;
+    padding: 9px;
+    border: none;
+    border-color: var(--brand-color);
+    box-shadow: -2px 1px 9px -2px var(--brand-color);
+    padding: 2rem;
+    border-spacing: 3rem;
+}
+.demSoKhachHang button{
+    width: auto;
+}
+.timkiemchuyenbay_phantu__chonlich{
+    display: none;
+    position: absolute;
+    background-color: var(--white-color);
+    border-color: var(--brand-color);
+    box-shadow: -2px 1px 9px -2px var(--brand-color);
+    border-radius: 1rem;
+    padding: 2rem;
+    width: max-content;
+    top:100%;
+}
+
+.btn_lichBay:focus ~.timkiemchuyenbay_phantu__chonlich {
+    display: block;
+}
+.timkiemchuyenbay__chonlich {
+    margin: 1rem 0rem;
+    color:var(--text-greyer-color);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+.timkiemchuyenbay__chonlich-chonngay {
+    margin-right: 7px;
+    border: none;
+} 
+
+.chanTrang {
+    color:#337ab7;
+}
+.chanTrang__title {
+    color:var(--text-greyer-color);
+}
+.footer {
+    color: var(--text-grey-color);
+    display: flex;
+    float:left;
+    width: 100%;
+    justify-content: space-between;
+    margin: 2rem;
+}
+.footer--item{
+    list-style: none;
+    padding-left: 0px;
+    font-size: larger;
+}
+.footer--item li{
+    display: inline-block;
+    margin: 0 8px;
+}
+.fa-brands{
+    color: var(--text-grey-color);
+}
