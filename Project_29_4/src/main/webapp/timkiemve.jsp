@@ -166,19 +166,26 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 	<div class="trangchonchuyenbay row" style ="display: block">
 		<div class="container">
 			<!-- Filter bar -->
-			<div class="filter-bar row">
-				<label for="price-filter" class="filter-bar__item">Giá:</label> <select
-					id="price-filter" class="filter-bar__item item-select">
-					<option value="economy">Thấp nhất</option>
-					<option value="business">Cao nhất</option>
-				</select> <label for="time-filter" class="filter-bar__item">Thời
-					gian:</label> <select id="time-filter" class="filter-bar__item item-select">
-					<option value="all">Tất cả</option>
-					<option value="morning">Buổi sáng</option>
-					<option value="afternoon">Buổi chiều</option>
-					<option value="evening">Buổi tối</option>
-				</select>
-			</div>
+			<form action="<%=url%>/khach-hang-controller" method = "POST">
+			<input type = "hidden" name ="hanhDong" value ="loc-chuyen-bay"/>
+				<div class="filter-bar row row col-xs-12  col-md-7">
+					<label for="price-filter" class="filter-bar__item" >Giá:</label> 
+					<select id="price-filter" class="filter-bar__item item-select" name = "price">
+						<option value="economy">Thấp nhất</option>
+						<option value="business">Cao nhất</option>
+					</select> 
+					<label for="time-filter" class="filter-bar__item" >Thời gian:</label> 
+					<select id="time-filter" class="filter-bar__item item-select" name = "time">
+						<option value="all">Tất cả</option>
+						<option value="morning">Buổi sáng</option>
+						<option value="afternoon">Buổi chiều</option>
+						<option value="evening">Buổi tối</option>
+					</select>
+					<button type=submit class="timkiemchuyenbay__phantu timkiemchuyenbay__phantu--btnTimChuyenBay " style ="margin: 0 50px">
+	                        Lọc
+	                </button>
+				</div>
+			</form>
 			<!-- End Filter bar -->
 			<div class="row">
 				<div class="col-xs-12  col-md-7">
@@ -202,13 +209,30 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 				            <% 
 					            Object dscb = session.getAttribute("danhSachChuyenBay");
 					            Object tb = session.getAttribute("tuyenBay");
-					            String baoLoitk = (String) request.getAttribute("baoLoitk");
-					            baoLoitk = (baoLoitk.equals("null")) ? "" : baoLoitk;
+					            Object cbdl =  session.getAttribute("chuyenBayDaLoc");
+					            
+					            String baoLoitk =  request.getAttribute("baoLoi") +"";
+					            baoLoitk = (baoLoitk.equals("null")|| baoLoitk == null) ? "" : baoLoitk;
 				                TuyenBay tuyenBay = (TuyenBay) tb;
 				            
-					            if (dscb != null) {
-					                ArrayList<ChuyenBay> danhSachChuyenBay =(ArrayList<ChuyenBay>) dscb;
-					                for (ChuyenBay cb : danhSachChuyenBay) {
+					           
+				            	ArrayList<ChuyenBay> danhSachChuyenBay = null;
+				            	if( cbdl!= null) {
+				            		danhSachChuyenBay =(ArrayList<ChuyenBay>)cbdl;
+				            	} else if(dscb != null) {
+				            		danhSachChuyenBay =(ArrayList<ChuyenBay>) dscb;
+				            	}
+					            	
+					            	if(!baoLoitk.equals("")) { 
+							%>
+				            	<div class="flight-item" style ="display: block">
+				            	 	<div class="flight-option" style ="color: red; font-size: 16px">
+				            	 		<%=baoLoitk%>
+				            	 	</div>
+				            	</div>
+				            <% } else { 
+				            	for (ChuyenBay cb : danhSachChuyenBay) {
+					              	
 				            %>
 				            
 				            <div class="flight-item">
@@ -219,17 +243,9 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 				                    <div class="fare-options" id="flight-option__gia">500.000VND</div>
 				                </div>
 				            </div>
+				            	
 				            <% 
-				                }
-				            } else { 
-				            %>
-				            	<div class="flight-item" style ="display: block">
-				            	 	<div class="flight-option" style ="color: red; font-size: 16px">
-				            	 		<%=baoLoitk%>
-				            	 	</div>
-				            	</div>
-				            <% 
-				            } 
+				            	}}
 				            %>
 				        </div>
 				    </div>
@@ -326,5 +342,16 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 	</div>
 	
 	<jsp:include page="./footer.jsp"></jsp:include>
+	
+	
+	<!-- java script -->
+	<script>
+    document.getElementById("price-filter").addEventListener("change", function() {
+        var selectedValue = this.value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "FilterServlet?price=" + selectedValue, true);
+        xhr.send();
+    });
+</script>
 </body>
 </html>

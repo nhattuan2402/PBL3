@@ -38,12 +38,13 @@
 .icon-bar{
     background-color: var(--white-color);
 }
-.navbar button,.dangky {
+.navbar button,.dangky,.dangxuat {
     color: var(--white-color);
     border-radius: 5px;
     background-color: var(--brand-color);
     cursor: pointer;
 }
+
 
 /*
     form dang ky& dang nhập

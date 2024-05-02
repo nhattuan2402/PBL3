@@ -37,8 +37,6 @@ public class TaiKhoan {
 	public void setMatKhau(String matKhau) {
 		this.matKhau = matKhau;
 	}
-	
-	
 
 	public String getRole() {
 		return role;

@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -63,6 +64,10 @@ public class khachhangcontroller extends HttpServlet {
 			timChuyenBay(request, response);
 		} else if(hanhdong.equals("yeu-cau-ho-tro")) {
 			yeuCauHoTro(request, response);
+		} else if(hanhdong.equals("loc-chuyen-bay")) {
+			locChuyenBay(request, response);
+		} else if(hanhdong.equals("dang-xuat")) {
+			dangXuat(request, response);
 		}
 	}
 
@@ -108,7 +113,7 @@ public class khachhangcontroller extends HttpServlet {
 					url = "/nhanvien.jsp";
 				}
 			} else {
-				request.setAttribute("baoLoi", "Email hoặc mật khẩu không chính xác");
+				request.setAttribute("baoLoiDangNhap", "Email hoặc mật khẩu không chính xác");
 				url = "/index.jsp";
 			}
 			// chuyển hướng yêu cầu đến 1 tài nguyên khác (url)
@@ -126,7 +131,10 @@ public class khachhangcontroller extends HttpServlet {
 		try {
 			HttpSession session =request.getSession();
 			session.invalidate();
-			response.sendRedirect("/index.jsp");
+			String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ request.getContextPath();
+	
+			response.sendRedirect(url + "/index.jsp");
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		}
@@ -160,7 +168,7 @@ public class khachhangcontroller extends HttpServlet {
 				url = "/index.jsp";
 			}
 
-			request.setAttribute("baoLoi", baoLoi);
+			request.setAttribute("baoLoiDangKy", baoLoi);
 			
 			if(baoLoi.length()>0) {
 				url = "/index.jsp";
@@ -290,7 +298,7 @@ public class khachhangcontroller extends HttpServlet {
 				chuyenBay = ChuyenBayDAO.layQuaMaTuyenBayVaNgayDi(tuyenBay.getMaTuyenBay(), ngayDi);
 			}
 			
-			String baoLoi = "fsafsf";
+			String baoLoi = "";
 			String url = "/timkiemve.jsp";
 			
 			if(chuyenBay.isEmpty()) {
@@ -302,12 +310,42 @@ public class khachhangcontroller extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("tuyenBay", tuyenBay);
 			session.setAttribute("danhSachChuyenBay", chuyenBay);
-			request.setAttribute("baoLoitk", baoLoi);
+			request.setAttribute("baoLoi", baoLoi);
 			
 			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 			rd.forward(request, response);
 			
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+	}
+	
+	// lọc chuyến bay
+	private void locChuyenBay(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			HttpSession session = request.getSession();
+	        Object dscb = session.getAttribute("danhSachChuyenBay");
+	        String price = request.getParameter("price");
+	        String time = request.getParameter("time");
+	        
+	        ArrayList<ChuyenBay> danhSachChuyenBay = null;
+	        ArrayList<ChuyenBay> chuyenBayDaLoc = null;
+	        if (dscb != null && dscb instanceof ArrayList<?>) {
+	            danhSachChuyenBay = (ArrayList<ChuyenBay>) dscb;
+	        }
+	        String baoLoi = "";
+	        if(!time.equals("all")) {
+	        	chuyenBayDaLoc = locChuyen(danhSachChuyenBay, price, time);
+	        	if(chuyenBayDaLoc.isEmpty()) {
+	        		baoLoi = "Không tìm thấy chuyến bay phù hợp";
+	        		chuyenBayDaLoc = null;
+	        	}
+	        }
+	        session.setAttribute("chuyenBayDaLoc", chuyenBayDaLoc);
+	        request.setAttribute("baoLoi", baoLoi);
+	        RequestDispatcher rd = getServletContext().getRequestDispatcher("/timkiemve.jsp");
+	        rd.forward(request, response);
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		}
@@ -380,6 +418,33 @@ public class khachhangcontroller extends HttpServlet {
 			System.err.println(e.toString());
 		}
 	}
-	// quản lý giỏ hàng 
-
+	
+	// hàm lọc danh sách chuyến bay
+	private ArrayList<ChuyenBay> locChuyen(ArrayList<ChuyenBay> danhSachChuyenBay, String price, String time) {
+		 ArrayList<ChuyenBay> danhSachDaLoc = new ArrayList<ChuyenBay>();
+		 if(time.equals("morning")) {
+			 for(ChuyenBay cb : danhSachChuyenBay) {
+				 LocalTime gioBay = cb.getGioBay().toLocalTime();
+			        if (gioBay.isAfter(LocalTime.of(4, 0, 0)) && gioBay.isBefore(LocalTime.of(12,0,0))) {
+					 danhSachDaLoc.add(cb);
+				 }
+			 }
+		 } else if(time.equals("afternoon")) {
+			 for(ChuyenBay cb : danhSachChuyenBay) {
+				 LocalTime gioBay = cb.getGioBay().toLocalTime();
+			        if (gioBay.isAfter(LocalTime.of(12, 0, 0)) && gioBay.isBefore(LocalTime.of(18,0,0))) {
+					 danhSachDaLoc.add(cb);
+				 }
+			 }
+		 } else if(time.equals("evening")) {
+			 for(ChuyenBay cb : danhSachChuyenBay) {
+				 LocalTime gioBay = cb.getGioBay().toLocalTime();
+			        if (gioBay.isAfter(LocalTime.of(18, 0, 0)) && gioBay.isBefore(LocalTime.of(4,0,0))) {
+					 danhSachDaLoc.add(cb);
+				 }
+			 }
+		 }
+		return danhSachDaLoc;
+	}
 }
+
