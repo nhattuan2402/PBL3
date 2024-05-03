@@ -117,5 +117,24 @@ public class TuyenBayDAO implements DAOInterface<TuyenBay>{
 		return tuyenBay;
 		
 	}
+
+	public static ArrayList<String> layThanhPho() {
+		ArrayList<String> thanhPho = new ArrayList<String>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT diemdi FROM tuyenbay";
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				String tp = rs.getString("diemdi");
+				if(!thanhPho.contains(tp)) {
+					thanhPho.add(tp);
+				}
+			}
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+		return thanhPho;
+	}
 	
 }

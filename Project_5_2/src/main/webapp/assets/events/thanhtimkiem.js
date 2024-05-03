@@ -42,7 +42,7 @@ $(document).ready( function(){
         }else 
         {
             count = parseInt($(this).prev().text());
-            count = count + 10;
+            count = count + 1;
             console.log("+ st. " + count);
             $(this).prev().text(count);  
         }
@@ -80,12 +80,16 @@ $(document).ready( function(){
 
 $(document).ready( function(){
 
-     var vietnamCities = [
-        "Hà Nội",
-        "Hồ Chí Minh",
-        "Đà Nẵng",
-        "Hải Phòng",
-    ];
+    var vietnamCities;
+    $.ajax({
+        url: "laythanhpho",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+           vietnamCities = data;
+           console.log(vietnamCities); 
+        }, 
+    })
 
 
     /**
