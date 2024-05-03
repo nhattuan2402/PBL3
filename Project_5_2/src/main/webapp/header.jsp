@@ -33,6 +33,8 @@
 <script src="./assets/events/formhotro.js"></script>
 <script src="./assets/events/thanhtimkiem.js"></script>
 <script src="./assets/events/chonchuyenbay.js"></script>
+<script src="./assets/events/formDienThongTinHanhKhach.js"></script>
+
 <%
 String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();

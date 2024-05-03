@@ -503,4 +503,3 @@ public class khachhangcontroller extends HttpServlet {
 		return danhSachDaLoc;
 	}
 }
-

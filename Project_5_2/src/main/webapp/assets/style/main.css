@@ -78,6 +78,13 @@
     cursor: pointer;
 }
 
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: var(--brand-color);
+    border-radius: 0.5rem;
+    color: var(--white-color);
+}
+
 /*form dang ky& dang nhập */
 .container__form,.navbar__dangKy {
     position: fixed;
@@ -218,9 +225,7 @@
 /*  phần tìm kiếm chuyến bay*/
 
 .trangchu__timkiemchuyenbay {
-    background-color: var(--brand-color);
     background-image: url("../images/backgroud1.0.jpg");
-    background-repeat: no-repeat;
     padding: 25rem 0;
 }
 .slogan {

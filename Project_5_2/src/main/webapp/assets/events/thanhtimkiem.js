@@ -27,19 +27,23 @@ $(document).ready( function(){
     $(".timchuyenbay__demsohanhkhach__exit").click(function demSoHK() {
             $(".demSoKhachHang").hide()
     })
-    $(".btCountNL, .btCountTE").buttondown(function btCount() {
+    $(".btCountNL, .btCountTE").click(function btCount() {
+		console.log("click btCount" +  $(this).text());	
         var text_bt = $(this).text();
+        console.log(text_bt);
         var count;
         if (text_bt=="-") {
             count = parseInt($(this).next().text()); 
             if (count > 0) {
-                count--; 
+                count = count - 1;
             }
+            console.log("- st. " + count);
             $(this).next().text(count); 
         }else 
         {
             count = parseInt($(this).prev().text());
-            count++;
+            count = count + 10;
+            console.log("+ st. " + count);
             $(this).prev().text(count);  
         }
         var txt_btDemSoKH="",

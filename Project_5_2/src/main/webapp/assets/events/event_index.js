@@ -63,6 +63,19 @@ function allLetter(idtag) {
     }
 }
 
+// là chuỗi ký tự
+function SEX(idtag) {
+    var inputTag = document.getElementById(idtag);
+    var theP = inputTag.nextElementSibling;
+    if ((inputTag.value).toUpperCase()=="NAM"||(inputTag.value).toUpperCase()=="NỮ") {
+        theP.style.display = "none";
+        return true;
+    } else {
+        theP.style.display = "block";
+        theP.innerHTML = "*Chỉ nhập ký tự 'NAM' hoặc 'NỮ'";
+        return false;
+    }
+}
 
 
 // Tất cả là số

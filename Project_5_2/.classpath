@@ -10,7 +10,7 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mysql-connector-java.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.30.jar"/>
-	<classpathentry kind="lib" path="D:/xampp/tomcat/lib/servlet-api.jar">
+	<classpathentry kind="lib" path="D:/GiaoPhan_Workspace/Folder_chua_tomcat8-5/apache-tomcat-8.5.100/lib/servlet-api.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="https://docs.oracle.com/javaee/7/api/"/>
 		</attributes>
