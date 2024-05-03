@@ -170,12 +170,22 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                     	Object tbd = session.getAttribute("tuyenBayDi");
 		                TuyenBay tuyenBayDi = (TuyenBay) tbd;
 		                
-		                String loaiVe = request.getParameter("loaiVe")+"";
+		                String loaiVe = "";
+		                Object loaiVeObj = session.getAttribute("loaiVe");
+		                if (loaiVeObj != null) {
+		                	loaiVe = (String) loaiVeObj;
+		                }
 		                
-		                
-		                String ngayDi = request.getAttribute("ngayDi")+"";
-		                String ngayVe = request.getAttribute("ngayVe")+"";
-		                
+		                String ngayDi = "";
+		                String ngayVe = "";
+		                Object ngayDiObj = session.getAttribute("ngayDi");
+		                Object ngayVeObj = session.getAttribute("ngayVe");
+		                if (ngayDiObj != null) {
+		                    ngayDi = (String) ngayDiObj;
+		                }
+		                if (ngayVeObj != null) {
+		                    ngayVe = (String) ngayVeObj;
+		                }
 		                
 		                // lấy danh sách các chuyến bay đi
 		                Object chuyenBayDi =  session.getAttribute("chuyenBayDi");
@@ -227,12 +237,12 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 						<input type = "hidden" name ="hanhDong" value ="loc-chuyen-bay"/>	
 	                    <div class="filter-bar row row col-xs-12  col-md-7">
 	                        <label for="price-filter"  class="filter-bar__item">Giá:</label>
-	                        <select id="price-filter" class="filter-bar__item item-select">
+	                        <select id="price-filter" class="filter-bar__item item-select" name = "price">
 	                            <option value="economy">Thấp nhất</option>
 	                            <option value="business">Cao nhất</option>
 	                        </select>
 	                        <label for="time-filter"  class="filter-bar__item">Thời gian:</label>
-	                        <select id="time-filter" class="filter-bar__item item-select">
+	                        <select id="time-filter" class="filter-bar__item item-select" name = "time">
 	                            <option value="all">Tất cả</option>
 	                            <option value="morning">Buổi sáng</option>
 	                            <option value="afternoon">Buổi chiều</option>
@@ -300,11 +310,11 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                                 <!-- chuyến bay về -->
                                 <ul class="flight-lists row chonchuyenve ">
                                 <%
-                                 	if(!baoLoiVe.equals("")) {
+                                 	if(!baoLoiVe.equals("")|| danhSachChuyenBayVe==null) {
                                  %>
-                                 		<li class="flight-item " style="color: red"><div class="flight-option" ><%=baoLoiVe%></div></li>
+                                 		<li class="flight-item " style="color: red"><div class="flight-option" >Không tìm thấy chuyến bay phù hợp</div></li>
                                  <% 
-                                 	} else if(danhSachChuyenBayVe!=null){
+                                 	} else {
                     					for(ChuyenBay cb : danhSachChuyenBayVe) {
                    				 %>
                                     <li class="flight-item chuyenbayve" tabindex="0">

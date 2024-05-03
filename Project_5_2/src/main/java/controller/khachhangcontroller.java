@@ -293,13 +293,10 @@ public class khachhangcontroller extends HttpServlet {
 			String ngayDi = request.getParameter("departure-date");
 			String ngayVe = request.getParameter("return-date");
 			
-			System.out.println(diemDi+" "+diemDen+" "+ngayDi+" "+ngayVe);
 			
 			TuyenBay tuyenBayDi = TuyenBayDAO.layQuaDiemDiVaDen(diemDi, diemDen);
 			TuyenBay tuyenBayVe = TuyenBayDAO.layQuaDiemDiVaDen(diemDen, diemDi);
 			
-			System.out.println(tuyenBayDi.toString());
-			System.out.println(tuyenBayVe.toString());
 			
 			ArrayList<ChuyenBay> chuyenBayDi = null;
 			ArrayList<ChuyenBay> chuyenBayVe = null;
@@ -326,19 +323,18 @@ public class khachhangcontroller extends HttpServlet {
 				baoLoiVe = "Không tìm thấy chuyến bay về phù hợp";
 			}
 			
-			System.out.println(baoLoiDi + " " +baoLoiVe);
-			
 			HttpSession session = request.getSession();
 			session.setAttribute("tuyenBayDi", tuyenBayDi);
 			session.setAttribute("tuyenBayVe", tuyenBayVe);
 			session.setAttribute("chuyenBayDi", chuyenBayDi);
 			session.setAttribute("chuyenBayVe", chuyenBayVe);
 			
-			request.setAttribute("ngayDi", ngayDi);
-			request.setAttribute("ngayVe", ngayVe);
+			session.setAttribute("ngayDi", ngayDi);
+			session.setAttribute("ngayVe", ngayVe);
+			session.setAttribute("loaiVe", loaiVe);
+			
 			request.setAttribute("baoLoiDi", baoLoiDi);
 			request.setAttribute("baoLoiVe", baoLoiVe);
-			request.setAttribute("loaiVe", loaiVe);
 			
 			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
@@ -353,10 +349,12 @@ public class khachhangcontroller extends HttpServlet {
 	private void locChuyenBay(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			HttpSession session = request.getSession();
-	        Object dscbd = session.getAttribute("ChuyenBayDi");
-	        Object dscbv = session.getAttribute("ChuyenBayVe");
+	        Object dscbd = session.getAttribute("chuyenBayDi");
+	        Object dscbv = session.getAttribute("chuyenBayVe");
 	        String price = request.getParameter("price");
 	        String time = request.getParameter("time");
+	        
+	        System.out.println(dscbd); System.out.println(dscbv);
 	        
 	        ArrayList<ChuyenBay> danhSachChuyenBayDi = null;
 	        ArrayList<ChuyenBay> danhSachChuyenBayVe = null;
@@ -374,23 +372,33 @@ public class khachhangcontroller extends HttpServlet {
 	        String baoLoiLocDi = "";
 	        String baoLoiLocVe = "";
 	        if(!time.equals("all")) {
-	        	chuyenBayDiDaLoc = locChuyen(danhSachChuyenBayDi, price, time);
-	        	if(chuyenBayDiDaLoc.isEmpty()) {
-	        		baoLoiLocDi = "Không tìm thấy chuyến bay phù hợp";
-	        		chuyenBayVeDaLoc = null;
+	        	
+	        	if(danhSachChuyenBayDi!=null) {
+	        		chuyenBayDiDaLoc = locChuyen(danhSachChuyenBayDi, price, time);
+		        	if(chuyenBayDiDaLoc.isEmpty()) {
+		        		baoLoiLocDi = "Không tìm thấy chuyến bay phù hợp";
+		        		chuyenBayVeDaLoc = null;
+		        	}
 	        	}
 	        	
-	        	chuyenBayVeDaLoc = locChuyen(danhSachChuyenBayVe, price, time);
-	        	if(chuyenBayVeDaLoc.isEmpty()) {
-	        		baoLoiLocVe = "Không tìm thấy chuyến bay phù hợp";
-	        		chuyenBayVeDaLoc = null;
+	        	if(danhSachChuyenBayVe!=null) {
+	        		chuyenBayVeDaLoc = locChuyen(danhSachChuyenBayVe, price, time);
+		        	if(chuyenBayVeDaLoc.isEmpty()) {
+		        		baoLoiLocVe = "Không tìm thấy chuyến bay phù hợp";
+		        		chuyenBayVeDaLoc = null;
+		        	}
 	        	}
 	        }
+	        System.out.println(danhSachChuyenBayDi);
+	        System.out.println(danhSachChuyenBayVe);
+	        
+	        System.out.println(chuyenBayDiDaLoc);
+	        System.out.println(chuyenBayVeDaLoc);
 	        
 	        session.setAttribute("chuyenBayDiDaLoc", chuyenBayDiDaLoc);
-	        session.setAttribute("chuyenBayVeDaLoc", chuyenBayDiDaLoc);
-	        request.setAttribute("baoLoiLocDi", baoLoiLocDi);
-	        request.setAttribute("baoLoiLocVe", baoLoiLocVe);
+	        session.setAttribute("chuyenBayVeDaLoc", chuyenBayVeDaLoc);
+	        request.setAttribute("baoLoiDi", baoLoiLocDi);
+	        request.setAttribute("baoLoiVe", baoLoiLocVe);
 	        
 	        RequestDispatcher rd = getServletContext().getRequestDispatcher("/chonchuyenbay.jsp");
 	        rd.forward(request, response);

@@ -20,7 +20,7 @@ $(document).ready( function(){
         var giaVe=$(this).find('#flight-option__gia').text();
         $("#chuyendi__giave").text(giaVe);
 
-        var thue=0
+        var thue=giaVe*0.1
         $("#chuyendi__thue").text(thue);
 
         var tongTien= parseFloat(thue)+parseFloat(giaVe);
@@ -52,7 +52,7 @@ $(document).ready( function(){
         var giaVe=$(this).find('#flight-option__gia').text();
         $("#chuyenve__giave").text(giaVe);
 
-        var thue=0
+        var thue=giaVe*0.1
         $("#chuyenve__thue").text(thue);
 
         var tongTien= parseFloat(thue)+parseFloat(giaVe);

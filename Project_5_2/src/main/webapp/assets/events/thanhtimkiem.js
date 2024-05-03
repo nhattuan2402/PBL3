@@ -27,7 +27,7 @@ $(document).ready( function(){
     $(".timchuyenbay__demsohanhkhach__exit").click(function demSoHK() {
             $(".demSoKhachHang").hide()
     })
-    $(".btCountNL, .btCountTE").click(function btCount() {
+    $(".btCountNL, .btCountTE").buttondown(function btCount() {
         var text_bt = $(this).text();
         var count;
         if (text_bt=="-") {
