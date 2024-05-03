@@ -75,6 +75,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
     	<!--Kết thúc header-->
 
             <!-- chọn chuyến bay-->
+			
             <div class="trangchonchuyenbay row">
                 <div class="container">
                     <!-- thanh tìm kiếm chuyến bay-->
@@ -127,8 +128,8 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                         <div class="timkiemchuyenbay__phantu timkiemchuyenbay__phantu--hienThiSoHanhKhach">
                             <i class="fa fa-user"></i> 
                             <input type="text"  class="HienthiSoHK" id="soHanhKach_ThanhTimKiemChuyenBay" placeholder="1 Người lớn" readonly="readonly" >
-                            <input type="hidden"  id="soHanhKach_nguoilon" value="1" >
-                            <input type="hidden"  id="soHanhKach_treem" value="0">
+                            <input type="hidden"  id="soHanhKach_nguoilon" value="1" name="soNguoiLon">
+                            <input type="hidden"  id="soHanhKach_treem" value="0" name ="soTreEm">
                                 <div class="demSoKhachHang">
                                     <table>
                                         <div class="nguoiLon">
@@ -176,6 +177,18 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 		                	loaiVe = (String) loaiVeObj;
 		                }
 		                
+		                String soNguoiLon="";
+		                Object soNguoiLonObj = session.getAttribute("soNguoiLon");
+		                if (soNguoiLonObj != null) {
+		                	soNguoiLon = (String) soNguoiLonObj;
+		                }
+		                
+		                String soTreEm="";
+		                Object soTreEmObj = session.getAttribute("soTreEm");
+		                if (soTreEmObj != null) {
+		                	soTreEm = (String) soTreEmObj;
+		                }
+
 		                String ngayDi = "";
 		                String ngayVe = "";
 		                Object ngayDiObj = session.getAttribute("ngayDi");
@@ -220,7 +233,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                     <div class="thongtinhanhtrinh row ">
                         <div class="thongtinhanhtring-colum thongtinhanhtrinh--tieude row">
                             <div class="thongtinhanhtrinh-tieude thongtinhanhtrinh-tieude--phancach" id="loaichuyenbay__thongtinhanhtrinh">Chuyến bay <%=loaiVe%></div>
-                            <div class="thongtinhanhtrinh-tieude"><span id="songuoilon__thongtinhanhtrinh">1</span> <span>Người lớn  </span ><span id="sotreem__thongtinhanhtrinh">0</span><span class='thongtinhanhtrinh-tieude--phancach'>Trẻ em</span></div>
+                            <div class="thongtinhanhtrinh-tieude"><span id="songuoilon__thongtinhanhtrinh"><%=soNguoiLon %></span> <span>Người lớn  </span ><span id="sotreem__thongtinhanhtrinh"><%=soTreEm %></span><span class='thongtinhanhtrinh-tieude--phancach'>Trẻ em</span></div>
                             <div class="thongtinhanhtrinh-tieude chonchuyendi" id="ngaydi__thongtinhanhtrinh"><%=ngayDi%></div>
                             <div class="thongtinhanhtrinh-tieude chonchuyenve" id="ngayve__thongtinhanhtrinh"><%=ngayVe%></div>
                         </div>
@@ -328,7 +341,9 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                         </div>
                         <!-- hết chuyến bay về -->
                     <!-- /. kết thúc box danh sách chuyến bay đi và bay về-->
-
+                    
+					
+					
                     <!-- box chuyen bay được chọn-->
                     <div class="col-xs-12  col-md-5">
                         <div class="chyenbayduocchon">
@@ -339,7 +354,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                                 <div class="chyenbayduocchon__chitietchuyenbay">
                                     <div class="chyenbayduocchon__item">
                                         <div class="chyenbayduocchon__item__part">
-                                            <span class="required" id="chuyendi__macb"></span>
+                                            <span class="required" id="chuyendi__macb" ></span>
                                         </div>
                                         <div class="chyenbayduocchon__item__part chyenbayduocchon__item__part--text-align-right">
                                             <span class="chyenbayduocchon-thongtin" id="chuyendi__ngaybay"> </span>
@@ -428,7 +443,8 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                     <!--/. kết thuc  box chuyen bay được chọn-->
 
                 </div>
-                <form action="dienthongtin.jsp" method="post">
+                <form action="<%=url%>/khach-hang-controller" method="post">
+				<input type="hidden" name="hanhDong" value ="chon-chuyen-bay">
                 <div class="row chonchuyendi">
                     <div class="thanhchuyentiep trangChonChuyenBay" id="thanhchuyentiep-chonchuyendi">
                         <div class="tongtienchuyenbay">
@@ -452,6 +468,9 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                             <span class="tongtien">Tổng Tiền:</span>
                             <span class="tongtien" id="thanhchuyentiep-chonchuyenve-tongtien">0</span><span>.000VND</span>
                         </div>
+                        <input type="hidden" id="maCBDi" name="maCBDi">
+                        <input type="hidden" id="maCBVe" name="maCBVe">
+                        
                         <button type="submit" class="_btnChuyenTiep" id="btn__chuyentiep-chonchuyenve">Tiếp theo</button>
                         <script>
                         document.addEventListener('DOMContentLoaded', function() {

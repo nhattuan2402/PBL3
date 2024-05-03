@@ -68,6 +68,8 @@ public class khachhangcontroller extends HttpServlet {
 			locChuyenBay(request, response);
 		} else if(hanhdong.equals("dang-xuat")) {
 			dangXuat(request, response);
+		} else if(hanhdong.equals("chon-chuyen-bay")) {
+			chonChuyenBay(request, response);
 		}
 	}
 
@@ -292,7 +294,8 @@ public class khachhangcontroller extends HttpServlet {
 			String loaiVe = request.getParameter("loaiVe");
 			String ngayDi = request.getParameter("departure-date");
 			String ngayVe = request.getParameter("return-date");
-			
+			String soNguoiLon = request.getParameter("soNguoiLon");
+			String soTreEm = request.getParameter("soTreEm");
 			
 			TuyenBay tuyenBayDi = TuyenBayDAO.layQuaDiemDiVaDen(diemDi, diemDen);
 			TuyenBay tuyenBayVe = TuyenBayDAO.layQuaDiemDiVaDen(diemDen, diemDi);
@@ -332,6 +335,8 @@ public class khachhangcontroller extends HttpServlet {
 			session.setAttribute("ngayDi", ngayDi);
 			session.setAttribute("ngayVe", ngayVe);
 			session.setAttribute("loaiVe", loaiVe);
+			session.setAttribute("soNguoiLon", soNguoiLon);
+			session.setAttribute("soTreEm", soTreEm);
 			
 			request.setAttribute("baoLoiDi", baoLoiDi);
 			request.setAttribute("baoLoiVe", baoLoiVe);
@@ -407,6 +412,41 @@ public class khachhangcontroller extends HttpServlet {
 		}
 	}
 	
+	// chọn chuyến bay
+	private void chonChuyenBay(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String maCBDi = request.getParameter("maCBDi");
+			String maCBVe = request.getParameter("maCBVe");
+			System.out.println(maCBVe);
+			HttpSession session = request.getSession();
+			
+			ArrayList<ChuyenBay> cbd = (ArrayList<ChuyenBay>)session.getAttribute("chuyenBayDi");
+			ChuyenBay chuyenBayDiDuocChon = null;
+			for(ChuyenBay cb : cbd) {
+				if(cb.getMaChuyenBay().equals(maCBDi)) {
+					chuyenBayDiDuocChon = cb;
+					break;
+				}
+			}
+			
+			ArrayList<ChuyenBay> cbv = (ArrayList<ChuyenBay>)session.getAttribute("chuyenBayVe");
+			ChuyenBay chuyenBayVeDuocChon = null;
+			for(ChuyenBay cb : cbv) {
+				if(cb.getMaChuyenBay().equals(maCBVe)) {
+					chuyenBayVeDuocChon = cb;
+					break;
+				}
+			}
+			
+			session.setAttribute("chuyenBayDiDuocChon", chuyenBayDiDuocChon);
+			session.setAttribute("chuyenBayVeDuocChon", chuyenBayVeDuocChon);
+			
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/dienthongtin.jsp");
+			rd.forward(request, response);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 	// điền thông tin hành khách
 	private void datVeMayBay(HttpServletRequest request, HttpServletResponse response) {
 		try  {

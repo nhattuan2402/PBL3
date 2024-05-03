@@ -86,7 +86,6 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 								class=" timkiemchuyenbay__phantu-chonThanhPho timkiemchuyenbay__phantu-chonThanhPho--Diemden">
 								<ul
 									class="timkiemchuyenbay__phantu-list timkiemchuyenbay_thanhphoden">
-
 								</ul>
 							</div>
 						</div>
@@ -131,9 +130,9 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 							class="timkiemchuyenbay__phantu timkiemchuyenbay__phantu--hienThiSoHanhKhach">
 							<i class="fa fa-user"></i> <input type="text" class="HienthiSoHK"
 								id="soHanhKach_ThanhTimKiemChuyenBay" placeholder="1 Người lớn"
-								readonly="readonly"> <input type="hidden"
-								id="soHanhKach_nguoilon" value="1"> <input
-								type="hidden" id="soHanhKach_treem" value="0">
+								readonly="readonly"> 
+								<input type="hidden" id="soHanhKach_nguoilon" value="1" name="soNguoiLon"> 
+								<input type="hidden" id="soHanhKach_treem" value="0" name="soTreEm">
 							<div class="demSoKhachHang">
 								<table>
 									<div class="nguoiLon">
@@ -141,17 +140,17 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 											<td><span>Người lớn:</span></td>
 											<td>
 												<button type="button" class="btCountNL">-</button> <span
-												class="numberNL" name="soNguoiLon">1</span>
+												class="numberNL" >1</span>
 												<button type="button" class="btCountNL">+</button>
 											</td>
 										</tr>
 									</div>
 									<div class="treEm">
 										<tr>
-											<td><span>Trẻ em:</span></td>
+											<td><span >Trẻ em:</span></td>
 											<td>
 												<button type="button" class="btCountTE">-</button> <span
-												class="numberTE" name="soTreEm">0</span>
+												class="numberTE" >0</span>
 												<button type="button" class="btCountTE">+</button>
 											</td>
 										</tr>

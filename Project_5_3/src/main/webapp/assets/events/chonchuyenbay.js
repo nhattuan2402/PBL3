@@ -7,6 +7,7 @@ $(document).ready( function(){
 
         var maCB=$(this).find('#flight-option__maCB').text();
         $("#chuyendi__macb").text(maCB);
+        $("#maCBDi").val(maCB);
 
         var thoiGianBay=$(this).find('#flight-option__thoigianbay').text();
         $("#chuyendi__giobay").text(thoiGianBay);
@@ -39,6 +40,7 @@ $(document).ready( function(){
 
         var maCB=$(this).find('#flight-option__maCB').text();
         $("#chuyenve__macb").text(maCB);
+        $("#maCBVe").val(maCB);
 
         var thoiGianBay=$(this).find('#flight-option__thoigianbay').text();
         $("#chuyenve__giobay").text(thoiGianBay);
