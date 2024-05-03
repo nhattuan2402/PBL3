@@ -313,12 +313,12 @@ public class khachhangcontroller extends HttpServlet {
 			String baoLoiVe = "";
 			String url = "/chonchuyenbay.jsp";
 			
-			if(chuyenBayDi.isEmpty()) {
+			if(chuyenBayDi == null || chuyenBayDi.isEmpty()) {
 				chuyenBayDi = null;
 				baoLoiDi = "Không tìm thấy chuyến bay đi phù hợp";
 			}
 			
-			if(chuyenBayVe.isEmpty()) {
+			if(chuyenBayVe == null ||chuyenBayVe.isEmpty()) {
 				chuyenBayVe = null;
 				baoLoiVe = "Không tìm thấy chuyến bay về phù hợp";
 			}

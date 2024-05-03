@@ -61,6 +61,8 @@ $(document).ready( function(){
         var tongTienChuyenKhuHoi = parseFloat($("#chuyendi__tongtien").text()) + parseFloat($("#chuyenve__tongtien").text()) ;
 
         $("#thanhchuyentiep-chonchuyenve-tongtien").text(tongTienChuyenKhuHoi);
+        
+        $("#btn__chuyentiep-chonchuyenve").prop("disabled", false);
     })
 })
 
@@ -74,10 +76,30 @@ $(document).ready( function(){
     })
 })
 
+$(document).ready(function() {
+	$("#btn__chuyentiep-chonchuyendi-1chieu").click(function hoantatconchuyendi() {
+		if ($("#chuyendi__macb").text() != "") {
+			return true;
+		} else {
+			return false;
+		}
+	})
+})
+		
+
 // thanh chuyen tiep cchon chuyen ve btn quay lai
 $(document).ready( function(){
     $("#btn__quaylai-chonchuyenve, .timkiemchuyenbay__phantu--btnTimChuyenBay").click(function hoantatconchuyendi() {
             $(".chonchuyendi").show();
             $(".chonchuyenve").hide();
     })
+})
+
+// thanh chuyen tiep chon chuyen ve
+$(document).ready(function() {
+	$("#btn__chuyentiep-chonchuyenve").click(function hoantatconchuyendi() {
+		if ($("#chuyenve__macb").text() != "") {
+			return true;
+		} 
+	})
 })

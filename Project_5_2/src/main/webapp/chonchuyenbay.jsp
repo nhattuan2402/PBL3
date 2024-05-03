@@ -233,7 +233,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                     </div>  
                     
                     <!-- Filter bar -->
-                    <form action="<%=url%>/khach-hang-controller" method = "POST">
+                    <form action="<%=url%>/khach-hang-controller" method = "POST" style="display: none">
 						<input type = "hidden" name ="hanhDong" value ="loc-chuyen-bay"/>	
 	                    <div class="filter-bar row row col-xs-12  col-md-7">
 	                        <label for="price-filter"  class="filter-bar__item">Giá:</label>
@@ -248,9 +248,6 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 	                            <option value="afternoon">Buổi chiều</option>
 	                            <option value="evening">Buổi tối</option>
 	                        </select>
-	                    	<button type=submit class="timkiemchuyenbay__phantu timkiemchuyenbay__phantu--btnTimChuyenBay " style ="margin: 0 50px">
-	                        	Lọc
-	                		</button>
 	                    </div>
                     </form>
                     <!-- /.End Filter bar -->
@@ -431,13 +428,21 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                     <!--/. kết thuc  box chuyen bay được chọn-->
 
                 </div>
+                <form action="dienthongtin.jsp" method="post">
                 <div class="row chonchuyendi">
                     <div class="thanhchuyentiep trangChonChuyenBay" id="thanhchuyentiep-chonchuyendi">
                         <div class="tongtienchuyenbay">
                             <span class="tongtien">Tổng Tiền:</span>
                             <span class="tongtien" id="thanhchuyentiep-chonchuyendi-tongtien">0</span><span>.000VND</span>
                         </div>
+                        <script>
+                        
+                        </script>
+                        <% if(loaiVe.equals("Khứ hồi")){ %>
                         <button type="button" class="_btnChuyenTiep" id="btn__chuyentiep-chonchuyendi">Tiếp theo</button>
+                        <%} else {%>
+                        <button type="submit" class="_btnChuyenTiep" id="btn__chuyentiep-chonchuyendi-1chieu">Tiếp theo</button>
+                        <%}%>
                     </div>
                 </div>
                 <div class="row chonchuyenve ">
@@ -447,9 +452,24 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                             <span class="tongtien">Tổng Tiền:</span>
                             <span class="tongtien" id="thanhchuyentiep-chonchuyenve-tongtien">0</span><span>.000VND</span>
                         </div>
-                        <button type="button" class="_btnChuyenTiep" id="btn__chuyentiep-chonchuyenve">Tiếp theo</button>
+                        <button type="submit" class="_btnChuyenTiep" id="btn__chuyentiep-chonchuyenve">Tiếp theo</button>
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                        	let chuyenBayMaVe = document.getElementById("chuyenve__macb").innerText;
+                            
+                            let buttonSubmit = document.getElementById("btn__chuyentiep-chonchuyenve");
+                            
+                            if (chuyenBayMaVe.trim() === "") {
+                                buttonSubmit.disabled = true;
+                            } else {
+                                buttonSubmit.disabled = false;
+                            }
+                        });
+                        
+                        </script>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
         <!-- /. kết thuc trang chon chuyen-->

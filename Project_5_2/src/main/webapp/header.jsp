@@ -535,7 +535,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#"><img
+				<a class="navbar-brand" href="index.jsp"><img
 					src="assets/images/logo.jpg" class="img_chania.jpg" alt="LOGO"></a>
 			</div>
 			<div class="collapse navbar-collapse" id="abc">
