@@ -137,5 +137,12 @@ public class TuyenBayDAO implements DAOInterface<TuyenBay>{
 		}
 		return thanhPho;
 	}
+
+
+	@Override
+	public TuyenBay selectByID(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

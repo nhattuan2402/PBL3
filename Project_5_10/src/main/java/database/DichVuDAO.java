@@ -89,4 +89,10 @@ public class DichVuDAO implements DAOInterface<DichVu> {
 		return dichVu;
 	}
 
+	@Override
+	public DichVu selectByID(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

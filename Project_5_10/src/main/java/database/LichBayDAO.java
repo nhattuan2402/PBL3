@@ -117,4 +117,10 @@ public class LichBayDAO implements DAOInterface<LichBay>{
 		return lichBay;
 	}
 
+	@Override
+	public LichBay selectByID(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

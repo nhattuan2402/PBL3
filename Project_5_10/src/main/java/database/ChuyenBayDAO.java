@@ -31,17 +31,8 @@ public class ChuyenBayDAO implements DAOInterface<ChuyenBay> {
 			ResultSet rs = st.executeQuery();
 			
 			ResultSetMetaData rsmd = rs.getMetaData();
-			int socot = rsmd.getColumnCount();
-			
-			for(int i=1;i<=socot;i++) {
-				System.out.print(rsmd.getColumnLabel(i)+"   ");
-			}
 			System.out.println("\n");
 			while(rs.next()) {
-				for(int i=1;i<=socot;i++) {
-					System.out.print(rs.getObject(i)+ "  ");
-				}
-				System.out.println("\n");
 				
 				String maChuyenBay = rs.getString("id_chuyenbay");
 				String maMayBay = rs.getString("id_maybay");
@@ -65,7 +56,9 @@ public class ChuyenBayDAO implements DAOInterface<ChuyenBay> {
 
 	@Override
 	public ChuyenBay selectByID(ChuyenBay t) {
-		return null;
+		ChuyenBay result = null;
+		
+		return result;
 	}
 
 	@Override
@@ -86,7 +79,7 @@ public class ChuyenBayDAO implements DAOInterface<ChuyenBay> {
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, t.getMaChuyenBay());
 			st.executeUpdate();
-			
+			System.out.println("Xoa thanh cong");
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -157,4 +150,99 @@ public class ChuyenBayDAO implements DAOInterface<ChuyenBay> {
 		}
 		return chuyenBay;
 	}
+
+	@Override
+	public ChuyenBay selectByID(String id) {
+		ChuyenBay result = null;
+	    
+	    try {
+	        Connection con = JDBCUtil.getConnection();
+	        String sql = "SELECT * FROM chuyenbay "
+	                + "JOIN tuyenbay ON chuyenbay.id_tuyenbay = tuyenbay.id_tuyenbay "
+	                + "JOIN lichbay ON chuyenbay.id_lichbay = lichbay.id_lichbay "
+	                + "WHERE chuyenbay.id_chuyenbay  = ?";
+	        PreparedStatement st = con.prepareStatement(sql);
+	        st.setString(1, id);
+	        ResultSet rs = st.executeQuery();
+	        
+	        while (rs.next()) {
+	        	String maChuyenBay = rs.getString("id_chuyenbay");
+				String maMayBay = rs.getString("id_maybay");
+				String diemDi = rs.getString("diemdi");
+				String diemDen = rs.getString("diemden");
+				String ngayBay = rs.getString("ngaybay");
+				String gioBay = rs.getString("giobay");
+				int gia = rs.getInt("gia");
+				
+				result = new ChuyenBay(maChuyenBay, maMayBay, diemDi, diemDen, 
+						Date.valueOf(ngayBay), Time.valueOf(gioBay), gia);
+				break;
+	        }
+			if (result == null) {
+				System.out.println("Khong tim thay chuyen bay");
+			}
+	        
+	        rs.close();
+	        JDBCUtil.closeConnection(con);
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return result;
+	}
+
+	public ArrayList<ChuyenBay> timKiemChuyenBay(String maChuyenBay, String thoiGian) {
+	    ArrayList<ChuyenBay> result = new ArrayList<ChuyenBay>();
+	    try {
+	        Connection con = JDBCUtil.getConnection();
+	        String sql ="";
+	        PreparedStatement st = null;
+	        
+	        if (maChuyenBay.equals("") && !thoiGian.equals("")) {
+	            sql = "SELECT * FROM chuyenbay "
+	            		+ "JOIN tuyenbay ON chuyenbay.id_tuyenbay = tuyenbay.id_tuyenbay "
+	 	                + "JOIN lichbay ON chuyenbay.id_lichbay = lichbay.id_lichbay "
+	            		+ "WHERE ngaybay = ?";
+	            st = con.prepareStatement(sql);
+	            st.setString(1, thoiGian);
+	            
+	        } else if (!maChuyenBay.equals("") && thoiGian.equals("")) {
+	            sql = "SELECT * FROM chuyenbay "
+	            		+ "JOIN tuyenbay ON chuyenbay.id_tuyenbay = tuyenbay.id_tuyenbay "
+	 	                + "JOIN lichbay ON chuyenbay.id_lichbay = lichbay.id_lichbay "
+	            		+ "WHERE id_chuyenbay LIKE ?";
+	            st = con.prepareStatement(sql);
+	            st.setString(1, "%" + maChuyenBay + "%");
+	        } else if (!maChuyenBay.equals("") && !thoiGian.equals("")) {
+	            sql = "SELECT * FROM chuyenbay "
+	            		+ "JOIN tuyenbay ON chuyenbay.id_tuyenbay = tuyenbay.id_tuyenbay "
+	 	                + "JOIN lichbay ON chuyenbay.id_lichbay = lichbay.id_lichbay "
+	            		+ "WHERE ngaybay = ? AND id_chuyenbay LIKE ?";
+	            st = con.prepareStatement(sql);
+	            st.setString(1, thoiGian);
+	            st.setString(2, "%" + maChuyenBay + "%");
+	        }
+	        
+	        ResultSet rs = st.executeQuery();
+	        while (rs.next()) {
+	            String maChuyenBay1 = rs.getString("id_chuyenbay");
+	            String maMayBay = rs.getString("id_maybay");
+	            String diemDi = rs.getString("diemdi");
+	            String diemDen = rs.getString("diemden");
+	            String ngayBay = rs.getString("ngaybay");
+	            String gioBay = rs.getString("giobay");
+	            int gia = rs.getInt("gia");
+
+	            ChuyenBay cb = new ChuyenBay(maChuyenBay1, maMayBay, diemDi, diemDen, Date.valueOf(ngayBay),
+	                    Time.valueOf(gioBay), gia);
+	            result.add(cb);
+	        }
+	        rs.close();
+	        JDBCUtil.closeConnection(con);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return result;
+	}
+
 }

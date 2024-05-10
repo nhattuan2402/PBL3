@@ -2,6 +2,8 @@ package database;
 
 import java.util.ArrayList;
 
+import model.ChuyenBay;
+
 public interface DAOInterface<T> {
 	public ArrayList<T> selectAll();
 	
@@ -11,5 +13,7 @@ public interface DAOInterface<T> {
 	
 	public void Update(T t);
 	
-	public void Delete(T t); 
+	public void Delete(T t);
+
+	public T selectByID(String id); 
 }

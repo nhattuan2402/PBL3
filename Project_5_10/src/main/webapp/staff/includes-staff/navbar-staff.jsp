@@ -45,7 +45,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 					data-target="#abc">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<a class="navbar-brand" href="<%=url%><%=url%>/nhan-vien-controller?hanhDong=trang-chu"">
+				<a class="navbar-brand" href="<%=url%>/nhan-vien-controller?hanhDong=trang-chu"">
 				<img src="staff/assets/images/logo.png" alt="logo" style="width: 100px; height: 45px;">
 				</a>
             </div>

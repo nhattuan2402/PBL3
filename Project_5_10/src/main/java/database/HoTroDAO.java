@@ -79,5 +79,11 @@ public class HoTroDAO implements DAOInterface<HoTro>{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public HoTro selectByID(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

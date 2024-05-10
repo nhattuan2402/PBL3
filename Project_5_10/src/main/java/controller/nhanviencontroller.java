@@ -62,6 +62,62 @@ public class nhanviencontroller extends HttpServlet {
 			thongBao(request, response);
 		} else if (hanhdong.equals("trang-chu")) {
 			trangChu(request, response);
+		} else if (hanhdong.equals("xoa-chuyen")) {
+			xoaChuyen(request, response);
+		} else if (hanhdong.equals("tim-kiem-cb")) {
+			timKiemChuyenBayStaff(request, response);
+		}
+	}
+
+	private void timKiemChuyenBayStaff(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Tim kiem chuyen bay Staff");
+		try {
+			String maChuyenBay = request.getParameter("input__machyen");
+			String ThoiGian = (String) request.getParameter("input_thoigian");
+			
+			System.out.println("Ma chuyen bay: " + maChuyenBay);
+			System.out.println("Thoi gian: " + ThoiGian);
+			
+			ChuyenBayDAO cbd = new ChuyenBayDAO();
+			ArrayList<ChuyenBay> allChuyenBay = cbd.timKiemChuyenBay(maChuyenBay, ThoiGian);
+			if (allChuyenBay == null || allChuyenBay.size() == 0) {
+				System.out.println("chuyen bay null");
+			} else {
+				System.out.println("chuyen bay not null");
+			}
+			HttpSession session = request.getSession();
+			session.setAttribute("allChuyenBay", allChuyenBay);
+			
+			String url = "/staff/flights.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			System.out.println("Vua out controller tim kiem chuyen bay ne");
+			rd.forward(request, response);
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+	}
+
+	private void xoaChuyen(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Xoa chuyen bay");
+		try {
+			String maChuyenBayXoa = (String) request.getParameter("maChuyenBayXoa");
+			if (maChuyenBayXoa == null) {
+				System.out.println("Ma chuyen bay xoa null");
+			} else {
+				System.out.println("Ma chuyen bay xoa not null" + maChuyenBayXoa);
+			}
+			ChuyenBay chuyenBayXoa1 = new ChuyenBayDAO().selectByID(maChuyenBayXoa);
+			if (chuyenBayXoa1 == null) {
+				System.out.println("Chuyen bay xoa null");
+			} else {
+				System.out.println("Chuyen bay xoa not null" + chuyenBayXoa1.getMaChuyenBay());
+			}
+			ChuyenBayDAO cbd = new ChuyenBayDAO();
+			cbd.Delete(chuyenBayXoa1);
+			System.out.println("Xoa chuyen bay thanh cong");
+			qlChuyenBay(request, response);
+		} catch (Exception e) {
+			System.err.println(e.toString());
 		}
 	}
 

@@ -133,4 +133,10 @@ public class MayBayDAO implements DAOInterface<MayBay> {
 		}
 		return mayBay;
 	}
+
+	@Override
+	public MayBay selectByID(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

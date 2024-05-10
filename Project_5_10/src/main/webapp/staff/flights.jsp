@@ -112,16 +112,17 @@ if (nhanVien != null) {
 
                 <div class="vungchua1">
                     <!-- thanh tìm kiếm chuyến bay-->
-                    <div class="timkiemchuyenbay timkiemchuyenbay--quanlychuyen">
+                    <form action="<%= url%>/nhan-vien-controller" class="timkiemchuyenbay timkiemchuyenbay--quanlychuyen">
+                    	<input type="hidden" name="hanhDong" value="tim-kiem-cb">
                         <div class="timkiemchuyenbay__phantu" >
-                            <input type="text" class="input__machyen" placeholder="Mã Chuyến Bay?">
+                            <input type="text" name="input__machyen" class="input__machyen" placeholder="Mã Chuyến Bay?" id="timkiemchuyenMa">
                         </div>
 
                         <div class="timkiemchuyenbay__phantu" >
-                            <input type="date" >
+                            <input type="date" name="input_thoigian" id="timkiemchuyendate">
                         </div>
-                            <button type="submit" class="timkiemchuyenbay__phantu timkiemchuyenbay__phantu--btnTimChuyenBay"> Tìm kiếm chuyến bay</button>
-                    </div>
+                            <button type="submit" class="timkiemchuyenbay__phantu timkiemchuyenbay__phantu--btnTimChuyenBay" onclick="return hamkiemtratimkiemchuyen('timkiemchuyenMa','timkiemchuyendate')"> Tìm kiếm chuyến bay</button>
+                    </form>
                     <!-- /. kết thúc thanh tìm kiếm chuyến bay-->
                     <button type="button" class="btn btn-primary btn_themchuyenbay" data-toggle="modal" data-target="#exampleModalCenter">+ Thêm chuyên bay</button>
                 </div>
@@ -160,14 +161,14 @@ if (nhanVien != null) {
                                         <div class="quanlychuyen-option-item">118</div>
                                         <div class="quanlychuyen-option-item quanlychuyen-option-item-tacvu">
                                         	<div class="btnTacVu">
-                                        		<i class="fa-solid fa-trash-can">
-                                        		
-                                        		</i>
+                                        		<a href="<%= url%>/nhan-vien-controller?hanhDong=xoa-chuyen&maChuyenBayXoa=<%= c.getMaChuyenBay() %>"> 
+                                        			<i class="fa-solid fa-trash-can"></i> 
+                                        		</a>
+
+
                                         	</div>
                                         	<div class="btnTacVu">
-                                        		<i class="fa-regular fa-pen-to-square">
-                                        		
-                                        		</i>
+                                        		<a href="<%=url%>/nhan-vien-controller?hanhDong=ql-chuyen-bay"><i class="fa-regular fa-pen-to-square"></i></a>
                                         	</div>
                                         </div>
                                     </div>
