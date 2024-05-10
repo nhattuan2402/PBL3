@@ -80,7 +80,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                 <div class="container">
                     <!-- thanh tìm kiếm chuyến bay-->
                     <form name="timchuyenbay" action="<%=url%>/khach-hang-controller" method="Post">
-                    <input type = "hidden" name ="hanhDong" value ="tim-kiem-chuyen-bay"/>
+                    <input type = "hidden" name ="hanhDong" value ="chon-chuyen-bay"/>
                     <div class="timkiemchuyenbay slideanim row  ">
                         <div class="timkiemchuyenbay__phantu timkiemchuyenbay--chonThanhPho" >
                             <i class="fa-solid fa-plane-departure"></i>
@@ -329,7 +329,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                    				 %>
                                     <li class="flight-item chuyenbayve" tabindex="0">
                                         <div class="flight-option" >
-                                            <div class="flight-item__content " id="flight-option__thoigianbay"><%=tuyenBayDi.getThoiGianBay() %></div>
+                                            <div class="flight-item__content " id="flight-option__thoigianbay"><%=tuyenBayDi.getThoiGianBay() %> h</div>
                                             <div class="flight-item__content" id="flight-option__thoigiandi-den"><%=cb.getGioBay() %></div>
                                             <div class="flight-item__content required" id="flight-option__maCB"><%=cb.getMaChuyenBay() %></div>
                                             <div class="fare-options "><span id="flight-option__gia"><%=cb.getGia() %></span>.000VND</div>
@@ -468,8 +468,10 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
                             <span class="tongtien">Tổng Tiền:</span>
                             <span class="tongtien" id="thanhchuyentiep-chonchuyenve-tongtien">0</span><span>.000VND</span>
                         </div>
+                        
                         <input type="hidden" id="maCBDi" name="maCBDi">
                         <input type="hidden" id="maCBVe" name="maCBVe">
+                        
                         
                         <button type="submit" class="_btnChuyenTiep" id="btn__chuyentiep-chonchuyenve">Tiếp theo</button>
                         <script>

@@ -1,9 +1,13 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -70,6 +74,10 @@ public class khachhangcontroller extends HttpServlet {
 			dangXuat(request, response);
 		} else if(hanhdong.equals("chon-chuyen-bay")) {
 			chonChuyenBay(request, response);
+		} else if(hanhdong.equals("dien-thong-tin")) {
+			dienThongTin(request, response);
+		} else if(hanhdong.equals("chon-cho-ngoi")) {
+			chonChoNgoi(request, response);
 		}
 	}
 
@@ -87,9 +95,7 @@ public class khachhangcontroller extends HttpServlet {
 			String tenDangNhap = request.getParameter("signin__memberEmail");
 			String matKhau = request.getParameter("signin__memberpassword");
 			String matKhauMaHoa = MaHoaMatKhau.toSHA1(matKhau);
-			System.out.println(tenDangNhap+" " + matKhau);
 			TaiKhoan tk = new TaiKhoan();
-			
 			tk.setTenDangNhap(tenDangNhap);
 			tk.setMatKhau(matKhauMaHoa);
 			
@@ -166,6 +172,9 @@ public class khachhangcontroller extends HttpServlet {
 			
 			String baoLoi = "";
 			String url = "";
+			
+			String nowString = layNgayGio();
+			
 			TaiKhoanDAO tkd = new TaiKhoanDAO();
 			if(tkd.kiemTraTenDangNhap(email)) {
 				baoLoi += "Email đã được đăng ký. Vui lòng thay đổi";
@@ -178,8 +187,8 @@ public class khachhangcontroller extends HttpServlet {
 				url = "/index.jsp";
 			} else {
 				// chưa có thì thêm vào database
-				String maTaiKhoan = "TKKH" + new Random().nextInt(10000) +"";
-				String maKhachHang = "KH" + new Random().nextInt(10000) +"";
+				String maTaiKhoan = "TKKH" +nowString;
+				String maKhachHang = "KH" + nowString;
 				boolean isGioiTinh = gioiTinh.equals("1")?true:false;
 				KhachHang kh = new KhachHang(maKhachHang, maTaiKhoan, hoVaTen, Date.valueOf(ngaySinh), soDienThoai, email, diaChi, isGioiTinh );
 				TaiKhoan tk = new TaiKhoan(maTaiKhoan, email, MaHoaMatKhau.toSHA1(matKhau), "khachhang");
@@ -326,6 +335,8 @@ public class khachhangcontroller extends HttpServlet {
 				baoLoiVe = "Không tìm thấy chuyến bay về phù hợp";
 			}
 			
+			System.out.println(loaiVe);
+			
 			HttpSession session = request.getSession();
 			session.setAttribute("tuyenBayDi", tuyenBayDi);
 			session.setAttribute("tuyenBayVe", tuyenBayVe);
@@ -359,7 +370,6 @@ public class khachhangcontroller extends HttpServlet {
 	        String price = request.getParameter("price");
 	        String time = request.getParameter("time");
 	        
-	        System.out.println(dscbd); System.out.println(dscbv);
 	        
 	        ArrayList<ChuyenBay> danhSachChuyenBayDi = null;
 	        ArrayList<ChuyenBay> danhSachChuyenBayVe = null;
@@ -394,11 +404,6 @@ public class khachhangcontroller extends HttpServlet {
 		        	}
 	        	}
 	        }
-	        System.out.println(danhSachChuyenBayDi);
-	        System.out.println(danhSachChuyenBayVe);
-	        
-	        System.out.println(chuyenBayDiDaLoc);
-	        System.out.println(chuyenBayVeDaLoc);
 	        
 	        session.setAttribute("chuyenBayDiDaLoc", chuyenBayDiDaLoc);
 	        session.setAttribute("chuyenBayVeDaLoc", chuyenBayVeDaLoc);
@@ -417,7 +422,8 @@ public class khachhangcontroller extends HttpServlet {
 		try {
 			String maCBDi = request.getParameter("maCBDi");
 			String maCBVe = request.getParameter("maCBVe");
-			System.out.println(maCBVe);
+			int tongTien = 0;
+			
 			HttpSession session = request.getSession();
 			
 			ArrayList<ChuyenBay> cbd = (ArrayList<ChuyenBay>)session.getAttribute("chuyenBayDi");
@@ -425,50 +431,124 @@ public class khachhangcontroller extends HttpServlet {
 			for(ChuyenBay cb : cbd) {
 				if(cb.getMaChuyenBay().equals(maCBDi)) {
 					chuyenBayDiDuocChon = cb;
+					tongTien += cb.getGia()*1.1;
 					break;
 				}
 			}
-			
-			ArrayList<ChuyenBay> cbv = (ArrayList<ChuyenBay>)session.getAttribute("chuyenBayVe");
-			ChuyenBay chuyenBayVeDuocChon = null;
-			for(ChuyenBay cb : cbv) {
-				if(cb.getMaChuyenBay().equals(maCBVe)) {
-					chuyenBayVeDuocChon = cb;
-					break;
-				}
-			}
-			
 			session.setAttribute("chuyenBayDiDuocChon", chuyenBayDiDuocChon);
+			session.setAttribute("maCBDi", maCBDi);
+			
+			Object objChuyenBayVe = session.getAttribute("chuyenBayVe");
+			
+			ArrayList<ChuyenBay> cbv = null;
+			ChuyenBay chuyenBayVeDuocChon = null;
+			
+			if(objChuyenBayVe!=null) {
+				cbv = (ArrayList<ChuyenBay>)objChuyenBayVe;
+				for(ChuyenBay cb : cbv) {
+					if(cb.getMaChuyenBay().equals(maCBVe)) {
+						chuyenBayVeDuocChon = cb;
+						tongTien += cb.getGia()*1.1;
+						break;
+					}
+				}
+			}
+			
 			session.setAttribute("chuyenBayVeDuocChon", chuyenBayVeDuocChon);
+			session.setAttribute("maCBVe", maCBVe);
+			session.setAttribute("tongTien", tongTien);
 			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/dienthongtin.jsp");
 			rd.forward(request, response);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println(e.toString());
 		}
 	}
-	// điền thông tin hành khách
-	private void datVeMayBay(HttpServletRequest request, HttpServletResponse response) {
+	
+	// điền thông tin 
+	private void dienThongTin(HttpServletRequest request, HttpServletResponse response) {
 		try  {
-			String hoVaTen = request.getParameter("hoVaTen");
-			String ngaySinh = request.getParameter("ngaySinh");
-			String email = request.getParameter("email");
-			String soDienThoai = request.getParameter("soDienThoai");
-			String gioiTinh = request.getParameter("gioiTinh");
-			String diaChi = request.getParameter("diaChi");
-			String soCCCD = request.getParameter("soCCCD");
-			String quocTich = request.getParameter("quocTich");
-			
-			boolean isGioiTinh = gioiTinh == "Nam" ? true:false;
-			String maHanhKhach = "HK" + new  Random().nextInt(10000);
-			
-			HanhKhach hanhKhach = new HanhKhach(maHanhKhach, hoVaTen, Date.valueOf(ngaySinh), email, soDienThoai, diaChi, isGioiTinh,  soCCCD, quocTich);
-			HanhKhachDAO.themHanhKhach(hanhKhach);
-			
 			HttpSession session = request.getSession();
-			session.setAttribute("hanhKhach", hanhKhach);
-		} catch (Exception e) {
+			int soNguoiLon = Integer.parseInt(session.getAttribute("soNguoiLon").toString());
+			int soTreEm = Integer.parseInt(session.getAttribute("soTreEm").toString());
+			String maCBDi = session.getAttribute("maCBDi").toString();
+			String maCBVe = session.getAttribute("maCBVe").toString();
+			int soHK = soNguoiLon + soTreEm;
+		
+			String nowString = layNgayGio();
+	        
+			ArrayList<String> tenHK = new ArrayList<String>();
 			
+			ArrayList<HanhKhach> danhSachHanhKhach = new ArrayList<HanhKhach>();
+			
+			for(int i=1;i<=soNguoiLon;i++) {
+				String hoVaTen = request.getParameter("tenNguoiLon"+i);
+				String ngaySinh = request.getParameter("ngaySinhNguoiLon"+i);
+				String email = request.getParameter("emailNguoiLon"+i);
+				String sdt = request.getParameter("sdtNguoiLon"+i);
+				String diaChi = request.getParameter("diaChiNguoiLon"+i);
+				String quocTich = request.getParameter("quocTichNguoiLon"+i);
+				String gioiTinh = request.getParameter("gioiTinhNguoiLon"+i);
+				String cccd = request.getParameter("cccdNguoiLon"+i);
+				String hanhLy = request.getParameter("KLHLNguoiLon"+i);
+				System.out.println(hanhLy);
+				tenHK.add(hoVaTen);
+				
+				HanhKhach hk = new HanhKhach("HKNL"+i+nowString,  hoVaTen, Date.valueOf(ngaySinh),sdt, email, diaChi, (gioiTinh.equals("Nam")|| gioiTinh.equals("nam"))?true:false, cccd, quocTich, maCBDi, maCBVe,"","");
+				danhSachHanhKhach.add(hk);
+			}
+			
+			for(int i=1;i<=soTreEm;i++) {
+				String hoVaTen = request.getParameter("tenTreEm"+i);
+				String ngaySinh = request.getParameter("ngaySinhTreEm"+i);
+				String diaChi = request.getParameter("diaChiTreEm"+i);
+				String quocTich = request.getParameter("quocTichTreEm"+i);
+				String gioiTinh = request.getParameter("gioiTinhTreEm"+i);
+				String hanhLy = request.getParameter("KLHLTreEm"+i);
+				System.out.println(hanhLy);
+				tenHK.add(hoVaTen);
+				
+				HanhKhach hk = new HanhKhach("HKTE"+i+nowString,  hoVaTen, Date.valueOf(ngaySinh),"", "", diaChi, (gioiTinh.equals("Nam")|| gioiTinh.equals("nam"))?true:false, "", quocTich, maCBDi, maCBVe,"","");
+				danhSachHanhKhach.add(hk);
+			}
+			
+			System.out.println(tenHK.toString());
+			String url = "/chonchongoi.jsp";
+			session.setAttribute("danhSachHanhKhach", danhSachHanhKhach);
+			session.setAttribute("soHK", soHK);
+			session.setAttribute("tenHK", tenHK);
+			
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			rd.forward(request, response);
+		   
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+	}
+	
+	// chọn chỗ ngồi
+	private void chonChoNgoi(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			HttpSession session = request.getSession();
+			int soHK = Integer.parseInt(session.getAttribute("soHK").toString());
+			ArrayList<HanhKhach> danhSachHanhKhach = (ArrayList<HanhKhach>)session.getAttribute("danhSachHanhKhach");
+			for(int i=1;i<=soHK;i++) {
+				String maGheDi = request.getParameter("maGheDi"+i);
+				String maGheVe = request.getParameter("maGheVe"+i);
+				danhSachHanhKhach.get(i-1).setMaGheDi(maGheDi);
+				danhSachHanhKhach.get(i-1).setMaGheVe(maGheVe);
+			}
+			
+			HanhKhachDAO hkd = new HanhKhachDAO();
+			for(HanhKhach hk : danhSachHanhKhach) {
+				hkd.themHanhKhach(hk);
+			}
+			
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/phuongthucthanhtoan.jsp");
+			rd.forward(request, response);
+			
+		} catch (Exception e) {
+			System.err.println(e.toString());
 		}
 	}
 	
@@ -541,5 +621,12 @@ public class khachhangcontroller extends HttpServlet {
 			 }
 		 }
 		return danhSachDaLoc;
+	}
+	private String layNgayGio() {
+		String nowString = null;
+		LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        nowString = now.format(formatter);
+        return nowString;
 	}
 }

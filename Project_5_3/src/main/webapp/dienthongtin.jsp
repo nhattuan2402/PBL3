@@ -4,8 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
+<%
+String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+		+ request.getContextPath();
+%>
 </head>
 <body>
 	<script>
@@ -16,7 +18,8 @@
 
 	<jsp:include page="/header.jsp"></jsp:include>
 
-	<form action="" name="DienThongTinHanhKhach" method="post">
+	<form action="<%=url%>/khach-hang-controller" name="DienThongTinHanhKhach" method="post">
+		<input type ="hidden" name="hanhDong" value ="dien-thong-tin"/>
 		<div class="trangDienThongTin row">
 			<div class="container">
 				<div class="row">
@@ -52,12 +55,12 @@
 								<div class="boxnhapthongtinHK">
 									<input type="text"
 										class="theInput form-control hovaten__nhapthongtinHK"
-										id="hovaten__nhapthongtinHKNL<%=i%>" placeholder="Họ Và Tên*" />
+										id="hovaten__nhapthongtinHKNL<%=i%>" placeholder="Họ Và Tên*"  name = "tenNguoiLon<%=i%>"/>
 									<div class="warning"></div>
 								</div>
 								<div class="boxnhapthongtinHK">
 									<input type="date" class="theInput form-control"
-										id="ngaySinh__nhapthongtinHKNL<%=i %>" placeholder="Ngày sinh*" />
+										id="ngaySinh__nhapthongtinHKNL<%=i %>" placeholder="Ngày sinh*" name = "ngaySinhNguoiLon<%=i%>"/>
 									<div class="warning"></div>
 									<div class="boxmota">
 										<div class="desc desc--moTaNgaySinh">DD/MM/YY Ví
@@ -68,31 +71,31 @@
 							<div class="thanhNhapThongTin thanhNhapThongTin--row1">
 								<div class="boxnhapthongtinHK">
 									<input type="text" class="theInput form-control"
-										id="email__nhapthongtinHKNL<%=i %>" placeholder="Email*" />
+										id="email__nhapthongtinHKNL<%=i %>" placeholder="Email*"  name = "emailNguoiLon<%=i%>"/>
 									<div class="warning"></div>
 								</div>
 								<div class="boxnhapthongtinHK">
 									<input type="text" class="theInput form-control"
-										id="SDT__nhapthongtinHKNL<%=i %>" placeholder="Số Điện Thoại*" />
-									<div class="warning"></div>
-								</div>
-							</div>
-							<div class="thanhNhapThongTin">
-								<div class="boxnhapthongtinHK">
-									<input type="text" class="theInput form-control"
-										id="DiaChi__nhapthongtinHKNL<%=i %>" placeholder="Địa Chỉ" />
-									<div class="warning"></div>
-								</div>
-								<div class="boxnhapthongtinHK">
-									<input type="text" class="theInput form-control"
-										id="QuocTich__nhapthongtinHKNL<%=i %>" placeholder="Quốc Tịch" />
+										id="SDT__nhapthongtinHKNL<%=i %>" placeholder="Số Điện Thoại*" name = "sdtNguoiLon<%=i%>"/>
 									<div class="warning"></div>
 								</div>
 							</div>
 							<div class="thanhNhapThongTin">
 								<div class="boxnhapthongtinHK">
 									<input type="text" class="theInput form-control"
-										id='GioiTinh__nhapthongtinHKNL<%=i %>' placeholder="Giới Tính" />
+										id="DiaChi__nhapthongtinHKNL<%=i %>" placeholder="Địa Chỉ" name = "diaChiNguoiLon<%=i%>"/>
+									<div class="warning"></div>
+								</div>
+								<div class="boxnhapthongtinHK">
+									<input type="text" class="theInput form-control"
+										id="QuocTich__nhapthongtinHKNL<%=i %>" placeholder="Quốc Tịch" name = "quocTichNguoiLon<%=i%>"/>
+									<div class="warning"></div>
+								</div>
+							</div>
+							<div class="thanhNhapThongTin">
+								<div class="boxnhapthongtinHK">
+									<input type="text" class="theInput form-control"
+										id='GioiTinh__nhapthongtinHKNL<%=i %>' placeholder="Giới Tính" name = "gioiTinhNguoiLon<%= i%>"/>
 									<div class="warning"></div>
 									<div class="boxmota">
 										<div class="desc desc--moTaNgaySinh">Nam/Nữ Ví Dụ: Nam</div>
@@ -100,7 +103,7 @@
 								</div>
 								<div class="boxnhapthongtinHK">
 									<input type="text" class="theInput form-control"
-										id="CCCD__nhapthongtinHKNL<%=i %>" placeholder="CCCD/CMND" />
+										id="CCCD__nhapthongtinHKNL<%=i %>" placeholder="CCCD/CMND" name = "cccdNguoiLon<%=i%>"/>
 									<div class="warning"></div>
 								</div>
 							</div>
@@ -117,12 +120,12 @@
 								<div class="boxnhapthongtinHK">
 									<input type="text"
 										class="theInput form-control hovaten__nhapthongtinHK "
-										id="hovaten__nhapthongtinHKTE<%=i%>" placeholder="Họ Và Tên*" />
+										id="hovaten__nhapthongtinHKTE<%=i%>" placeholder="Họ Và Tên*" name = "tenTreEm<%=i%>"/>
 									<div class="warning"></div>
 								</div>
 								<div class="boxnhapthongtinHK">
 									<input type="date" class="theInput form-control"
-										id="ngaySinh__nhapthongtinHKTE<%=i %>" placeholder="Ngày sinh*" />
+										id="ngaySinh__nhapthongtinHKTE<%=i %>" placeholder="Ngày sinh*" name = "ngaySinhTreEm<%=i%>"/>
 									<div class="warning"></div>
 									<div class="boxmota">
 										<div class="desc desc--moTaNgaySinh">DD/MM/YY Ví
@@ -133,19 +136,19 @@
 							<div class="thanhNhapThongTin thanhNhapThongTin--row1">
 								<div class="boxnhapthongtinHK">
 									<input type="text" class="theInput form-control"
-										id="DiaChi__nhapthongtinHKTE<%=i %>" placeholder="Địa Chỉ" />
+										id="DiaChi__nhapthongtinHKTE<%=i %>" placeholder="Địa Chỉ" name = "diaChiTreEm<%=i%>"/>
 									<div class="warning"></div>
 								</div>
 								<div class="boxnhapthongtinHK">
 									<input type="text" class="theInput form-control"
-										id="QuocTich__nhapthongtinHKTE<%=i %>" placeholder="Quốc Tịch" />
+										id="QuocTich__nhapthongtinHKTE<%=i %>" placeholder="Quốc Tịch" name = "quocTichTreEm<%=i%>"/>
 									<div class="warning"></div>
 								</div>
 							</div>
 							<div class="thanhNhapThongTin">
 								<div class="boxnhapthongtinHK">
 									<input type="text" class="theInput form-control"
-										id="GioiTinh__nhapthongtinHKTE<%=i %>" placeholder="Giới Tính" />
+										id="GioiTinh__nhapthongtinHKTE<%=i %>" placeholder="Giới Tính" name ="gioiTinhTreEm<%=i%>"/>
 									<div class="warning"></div>
 									<div class="boxmota">
 										<div class="desc desc--moTaNgaySinh">Nam/Nữ Ví Dụ: Nam</div>
@@ -158,9 +161,22 @@
 					
 					<%
 						ChuyenBay chuyenBayDiDuocChon = (ChuyenBay) session.getAttribute("chuyenBayDiDuocChon");
-						ChuyenBay chuyenBayVeDuocChon = (ChuyenBay) session.getAttribute("chuyenBayVeDuocChon");
 						TuyenBay tuyenBayDi = (TuyenBay)session.getAttribute("tuyenBayDi");
-						TuyenBay tuyenBayVe = (TuyenBay)session.getAttribute("tuyenBayVe");
+						Object cbvdc = session.getAttribute("chuyenBayVeDuocChon");
+						Object tbvdc = session.getAttribute("tuyenBayVe");
+						
+						ChuyenBay chuyenBayVeDuocChon = null;
+						if(cbvdc !=null) {
+							chuyenBayVeDuocChon = (ChuyenBay) cbvdc;
+						}
+						
+						TuyenBay tuyenBayVe = null;
+						if(tbvdc!=null) {
+							tuyenBayVe = (TuyenBay) tbvdc;
+						}
+						
+						String tongTien = session.getAttribute("tongTien")+"";
+						
 					%>
 					<!-- box chuyen bay được chọn-->
 					<div class="col-xs-12  col-md-5 trangDienThongTin">
@@ -211,6 +227,9 @@
 								</div>
 							</div>
 							<br> <br>
+							<%
+								if(chuyenBayVeDuocChon!=null && tuyenBayVe != null) {
+							%>
 							<div
 								class="chyenbayduocchon__chuyenbay  trangDienThongTinHanhKhach__muavemaybay"
 								id="chuyenbayduocchon__chuyenve-DienThongTinHK">
@@ -256,6 +275,7 @@
 									</div>
 								</div>
 							</div>
+							<%} %>
 						</div>
 					</div>
 
@@ -283,15 +303,16 @@
 							<%for(int i=1;i<=soNguoiLon;i++ ){%>
 							<div class="chiTietKyGui__ThanhPhan desc--thongtinhanhkhach desc--boxThongtin">
 								<div class="chiTietKyGui__ThanhPhan-TenHanhKhach"
-									id='tenHK__nhapthongtinHKNL<%=i%>'>Nguyen Van A</div>
+									id='tenHK__nhapthongtinHKNL<%=i%>'>----</div>
 								<div class="chiTietKyGui__ThanhPhan-HanhLyKyGui">
 									<button type="button"
 										class="HanhLyKyGui--thanhphan  btn__GiamKhoiLuongKyGui">-</button>
 									<div class="HanhLyKyGui--thanhphan">1</div>
+									
 									<button type="button"
 										class="HanhLyKyGui--thanhphan btn__TangKhoiLuongKyGui">+</button>
 									<input type="hidden" class="KhoiLuongKyGui"
-										id="chiTietKyGui-SoLuongHanhKyGuiHKNL1" value="1">
+										id="chiTietKyGui-SoLuongHanhKyGuiHKNL<%=i%>" name="KLHLNguoiLon<%=i%>" value="1">
 								</div>
 							</div>
 							<%} %>
@@ -299,7 +320,7 @@
 							<%for(int i=1;i<=soTreEm;i++ ){%>
 							<div class="chiTietKyGui__ThanhPhan desc--thongtinhanhkhach desc--boxThongtin">
 								<div class="chiTietKyGui__ThanhPhan-TenHanhKhach"
-									id='tenHK__nhapthongtinHKTE<%=i%>'>Nguyen Van B</div>
+									id='tenHK__nhapthongtinHKTE<%=i%>'>----</div>
 								<div class="chiTietKyGui__ThanhPhan-HanhLyKyGui">
 									<button type="button"
 										class="HanhLyKyGui--thanhphan btn__GiamKhoiLuongKyGui">-</button>
@@ -307,7 +328,7 @@
 									<button type="button"
 										class="HanhLyKyGui--thanhphan btn__TangKhoiLuongKyGui">+</button>
 									<input type="hidden" class="KhoiLuongKyGui"
-										id="chiTietKyGui-SoLuongHanhKyGuiHKTE1" value="1">
+										id="chiTietKyGui-SoLuongHanhKyGuiHKTE<%=i%> %>" name="KLHLTreEm<%=i%>" value="1">
 								</div>
 							</div>
 							<%} %>
@@ -329,10 +350,10 @@
 							id="btn__quaylai-DienThongTin">Quaylai</button>
 						<div class="tongtienchuyenbay">
 							<span class="tongtien">Tổng Tiền:</span> 
-							<span class="tongtien" id="thanhchuyentiep-DienThongTin-tongtien"><%=(int)((chuyenBayDiDuocChon.getGia()+chuyenBayVeDuocChon.getGia())*1.1) %></span>
+							<span class="tongtien" id="thanhchuyentiep-DienThongTin-tongtien"><%=tongTien %></span>
 							<span>.000VND</span>
 						</div>
-						<button type="button" class="_btnChuyenTiep"
+						<button type="submit" class="_btnChuyenTiep"
 							id="btn__chuyentiep-DienThongTin"
 							onclick="return submitDienThongTinHk(<%=soNguoiLon%>,<%=soTreEm%>)">Tiếp theo</button>
 					</div>

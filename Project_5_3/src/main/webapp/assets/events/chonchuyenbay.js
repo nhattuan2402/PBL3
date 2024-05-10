@@ -1,5 +1,6 @@
 // xử lý sự kiện focus vao list chuyen bay- chon chuyen di
 $(document).ready( function(){
+	
     $(".chuyenbaydi").on("click", function() {
 
         var ngayBay=$('#ngaydi__thongtinhanhtrinh').text();
@@ -26,7 +27,7 @@ $(document).ready( function(){
 
         var tongTien= parseFloat(thue)+parseFloat(giaVe);
         $("#chuyendi__tongtien").text(tongTien);
-
+		
         $("#thanhchuyentiep-chonchuyendi-tongtien").text(tongTien);
     })
 })
@@ -60,8 +61,8 @@ $(document).ready( function(){
         var tongTien= parseFloat(thue)+parseFloat(giaVe);
         $("#chuyenve__tongtien").text(tongTien);
         
+        
         var tongTienChuyenKhuHoi = parseFloat($("#chuyendi__tongtien").text()) + parseFloat($("#chuyenve__tongtien").text()) ;
-
         $("#thanhchuyentiep-chonchuyenve-tongtien").text(tongTienChuyenKhuHoi);
         
         $("#btn__chuyentiep-chonchuyenve").prop("disabled", false);
