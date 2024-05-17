@@ -63,7 +63,18 @@ public class ChuyenBayDAO implements DAOInterface<ChuyenBay> {
 
 	@Override
 	public void Add(ChuyenBay t) {
-		
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "INSERT INTO chuyenbay(id_chuyenbay, id_maybay, id_lichbay, id_tuyenbay, ngaybay, gia) VALUES(?, ?, ?, ?, ?, ?)";
+			PreparedStatement st = con.prepareStatement(sql);
+	        st.setString(1, t.getMaMayBay());
+	        st.setString(2, t.getMaMayBay());
+	        st.executeUpdate();
+	        System.out.println("Thêm chuyến bay thành công");
+	        JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -244,5 +255,23 @@ public class ChuyenBayDAO implements DAOInterface<ChuyenBay> {
 	    }
 	    return result;
 	}
+	
+	public String getMaxMaChuyenBay() {
+        String maxMaChuyenBay = null;
+        try {
+        	Connection con = JDBCUtil.getConnection();
+            String query = "SELECT MAX(id_chuyenbay) FROM chuyenbay";
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                maxMaChuyenBay = rs.getString(1);
+            }
+            rs.close();
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maxMaChuyenBay;
+    }
 
 }

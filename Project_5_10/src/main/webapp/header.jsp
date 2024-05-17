@@ -386,7 +386,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 form-title title_enroll">
 					TRUNG TÂM TRỢ GIÚP - CHÚNG TÔI Ở ĐÂY ĐỂ GIÚP BẠN</div>
-			</div>
+				</div>
 			<div class="phieuYeuCauHoTro row">
 				<form name="phieuYeuCauHoTro"
 					action="<%=url%>/khach-hang-controller" method="Post">

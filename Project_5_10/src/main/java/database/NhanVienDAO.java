@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
 
 import model.KhachHang;
 import model.NhanVien;
@@ -101,6 +102,41 @@ public class NhanVienDAO {
 					result = new NhanVien(maNhanVien, maTaiKhoan, hoVaTen, Date.valueOf(ngaySinh), email, soDienThoai, diaChi, gioiTinh);
 				}
 				
+			} catch (Exception e) {
+				System.err.println(e.toString());
+			}
+			return result;
+		}
+
+		public ArrayList<NhanVien> selectAll() {
+			ArrayList<NhanVien> result = new ArrayList<NhanVien>();
+			try {
+				Connection con = JDBCUtil.getConnection();
+				String sql = "SELECT * FROM nhanvien";
+				PreparedStatement st = con.prepareStatement(sql);
+				ResultSet rs = st.executeQuery();
+				ResultSetMetaData rsmd  = rs.getMetaData();
+				int soCot = rsmd.getColumnCount();
+				while (rs.next()) {
+					for(int i=1;i<=soCot;i++) {
+						System.out.print(rs.getObject(i)+"\t");
+					}
+					System.out.println();
+					
+					String maNhanVien = rs.getString("id_nhanvien");
+					String maTaiKhoan = rs.getString("id_taikhoan");
+					String hoVaTen = rs.getString("hovaten");
+					String ngaySinh = rs.getString("ngaysinh");
+					String email = rs.getString("email");
+					String soDienThoai = rs.getString("sodienthoai");
+					String diaChi = rs.getString("diachi");
+					boolean gioiTinh = rs.getBoolean("gioiTinh");
+
+					NhanVien nv = new NhanVien(maNhanVien, maTaiKhoan, hoVaTen, Date.valueOf(ngaySinh), email,
+							soDienThoai, diaChi, gioiTinh);
+					result.add(nv);
+				}
+
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}

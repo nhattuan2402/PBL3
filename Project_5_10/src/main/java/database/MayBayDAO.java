@@ -14,6 +14,8 @@ public class MayBayDAO implements DAOInterface<MayBay> {
 	//xem tất cả máy bay
 	@Override
 	public ArrayList<MayBay> selectAll() {
+		ArrayList<MayBay> result = new ArrayList<MayBay>();
+		System.out.println("Danh sách máy bay");
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM maybay";
@@ -27,11 +29,23 @@ public class MayBayDAO implements DAOInterface<MayBay> {
 					System.out.print(rs.getObject(i)+"\t");
 				}
 				System.out.println("\n");
+				
+				String maMayBay = rs.getString("id_maybay");
+				String loaiMayBay = rs.getString("loaimaybay");
+				int soHangGheThuongGia = rs.getInt("sohangghethuongigia");
+				int soHangGhePhoThong = rs.getInt("sohangghephothong");
+				int soGheHangThuongGia = rs.getInt("soghehangthuonggia");
+				int soGheHangPhoThong = rs.getInt("soghehangphothong");
+				
+				MayBay mb = new MayBay(maMayBay, loaiMayBay, soHangGheThuongGia, soHangGhePhoThong, soGheHangThuongGia, soGheHangPhoThong);
+				result.add(mb);
 			}
+			rs.close();
+			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		}
-		return null;
+		return result;
 	}
 
 	// xem máy bay theo ID

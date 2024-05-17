@@ -14,6 +14,8 @@ public class LichBayDAO implements DAOInterface<LichBay>{
 	// xem tat ca lich bay
 	@Override
 	public ArrayList<LichBay> selectAll() {
+		ArrayList<LichBay> result = new ArrayList<LichBay>();
+		System.out.println("Danh sách lịch bay");
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM lichbay";
@@ -26,11 +28,19 @@ public class LichBayDAO implements DAOInterface<LichBay>{
 					System.out.print(rs.getObject(i)+"\t");
 				}
 				System.out.println();
+				
+				String id_lichbay = rs.getString("id_lichbay");
+				Time thoigiancatcanh = rs.getTime("giobay");
+				
+				LichBay lb = new LichBay(id_lichbay, thoigiancatcanh);
+				result.add(lb);
 			}
+			rs.close();
+			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 
 	// xem lich bay theo id
@@ -121,6 +131,46 @@ public class LichBayDAO implements DAOInterface<LichBay>{
 	public LichBay selectByID(String id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public String getMaxMaLichBay() {
+		String maxMaLichBay = "";
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT MAX(id_lichbay) FROM lichbay";
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				maxMaLichBay = rs.getString(1);
+				break;
+			}
+			rs.close();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+		return maxMaLichBay;
+	}
+
+	public ArrayList<LichBay> timKiemLichBay(String sapxep) {
+		ArrayList<LichBay> result = new ArrayList<LichBay>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM lichbay ORDER BY giobay " + sapxep;
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				String id_lichbay = rs.getString("id_lichbay");
+				Time giobay = rs.getTime("giobay");
+				LichBay lb = new LichBay(id_lichbay, giobay);
+				result.add(lb);
+			}
+			rs.close();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		} 
+		return result;
 	}
 
 }

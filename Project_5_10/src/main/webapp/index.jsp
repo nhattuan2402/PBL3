@@ -35,7 +35,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 			<div
 				class="messagebox__bieutuong messagebox__bieutuong--Congratulations">
 				<i class="fa-solid fa-circle-check"></i>
-			</div>
+			</div>p
 			<div class="messagebox__title">Bạn Ơi!</div>
 			<div class="messagebox__content"
 				id="messagebox_Congratulations-content"></div>

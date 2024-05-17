@@ -20,6 +20,9 @@ if (nhanVien != null) {
     response.sendRedirect(url + "/index.jsp");
 } 
 
+ArrayList<TuyenBay> allTuyenBay = (ArrayList<TuyenBay>)session.getAttribute("allTuyenBay");
+ArrayList<MayBay> allMayBay = (ArrayList<MayBay>)session.getAttribute("allMayBay");
+ArrayList<LichBay> allLichBay = (ArrayList<LichBay>)session.getAttribute("allLichBay");
 %>
 <title>Quản lý chuyến bay</title>	
 <jsp:include page="includes-staff/header-staff.jsp"></jsp:include>
@@ -31,28 +34,57 @@ if (nhanVien != null) {
 </style>
 <body>
 	<jsp:include page="includes-staff/navbar-staff.jsp"></jsp:include>
- <!-- chọn chuyến bay-->
+ 		<!-- chọn chuyến bay-->
         <div class="container quanlychuyenbay">
-
-            
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<!-- Modal xóa chuyến bay -->
+             <div class="modal fade" id="xoachuyenbay" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <form action="#" method="post">
+	                    <div class="themchuyenbay">
+	                        <div class="themchuyenbay-title" style="color: red;">
+	                            Bạn Xác Nhận Vô Hiệu Hóa Chuyến Bay!
+	                        </div>
+	                        <div class="vungchua__themchuyenbay">
+	                                <div class="themchuyenbay__phantu">
+	                                    <div class="label"><label for="MaCBXoa">Mã Chuyến Bay</label></div>
+	                                    <input type="text" id="MaCBXoa" class="macbXoa" readonly>
+	                                </div>
+	                        </div>
+	                        <div class="modal-footer chantrangxoachuyen">
+	                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+	                            <button type="submit" class="btn btn-primary _btnChuyenTiep btnxacnhanxoachuyen">Xác Nhận</button>
+	                        </div>
+	                    </div>
+                	</form>
+                </div>
+            </div>
+            <!--/. kết thúc Modal xóa chuyến bay -->
+            
+            <!-- Modal sửa chuyến bay -->
+             <div class="modal fade" id="suachuyenbay" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <form action="<%= url%>/nhan-vien-controller" method="post">
+                    <input type="hidden" name="hanhDong" value="update-chuyenbay">
                     <div class="themchuyenbay">
                         <div class="themchuyenbay-title">
-                            Thêm Chuyến Bay
+                            Sửa Chuyến Bay
                         </div>
                         <div class="vungchua__themchuyenbay">
                             <div class="themchuyenbay__dong">
                                 <div class="themchuyenbay__phantu">
-                                    <div class="label"><label for="ngaybaychuyenbay">Ngày Bay</label></div>
-                                    <input type="date" id="ngaybaychuyenbay" >
+                                    <div class="label"><label for="MaCBChinhSua">Mã Chuyến Bay</label></div>
+                                    <input type="text" id="MaCBChinhSua" class="macbChinhsua" readonly>
+                                </div>
+                            </div>
+                            <div class="themchuyenbay__dong">
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="ngaybaychuyenbaychinhsua">Ngày Bay</label></div>
+                                    <input type="date" id="ngaybaychuyenbaychinhsua" >
                                     <div class="warning"></div>
                                 </div>
                                 <div class="themchuyenbay__phantu">
-                                    <div class="label"><label for="giobaychuyenbay">Lịch Bay</label></div>
-                                    <select class="theselect--themchuyenbay">
+                                    <div class="label"><label for="giobaychuyenbaychinhsua">Lịch Bay</label></div>
+                                    <select class="theselect--themchuyenbay"id="lichbaychinhsua">
                                         <option value="hcm">7:00 AM</option>
                                         <option value="sg">7:00 AM</option>
                                         <option value="dn">7:00 AM</option>
@@ -61,16 +93,16 @@ if (nhanVien != null) {
                             </div>
                             <div class="themchuyenbay__dong">
                                 <div class="themchuyenbay__phantu">
-                                    <div class="label"><label for="diemdichuyenbay">Tuyến bay</label></div>
-                                    <select class="theselect--themchuyenbay" id="diemdichuyenbay">
+                                    <div class="label"><label for="diemdichuyenbaychinhsua">Tuyến bay</label></div>
+                                    <select class="theselect--themchuyenbay" id="diemdichuyenbaychinhsua">
                                         <option selected value="hcm">hcm</option>
                                         <option value="sg">hc</option>
                                         <option value="dn">cm</option>
                                     </select>
                                 </div>
                                 <div class="themchuyenbay__phantu">
-                                    <div class="label"><label for="loaimaybaychuyenbay">Loại Máy Bay</label></div>
-                                    <select class="theselect--themchuyenbay" id="loaimaybaychuyenbay">
+                                    <div class="label"><label for="loaimaybaychuyenbaychinhsua">Loại Máy Bay</label></div>
+                                    <select class="theselect--themchuyenbay" id="loaimaybaychuyenbaychinhsua">
                                         <option selected value="hcm">A321</option>
                                         <option value="sg">A320</option>
                                     </select>
@@ -78,16 +110,89 @@ if (nhanVien != null) {
                             </div>
                             <div class="themchuyenbay__dong">
                                 <div class="themchuyenbay__phantu">
-                                    <div class="label"><label for="soghechuyenbay">Số Ghế</label></div>
-                                    <select class="theselect--themchuyenbay" id="soghechuyenbay">
+                                    <div class="label"><label for="soghechuyenbaychinhsua">Số Ghế</label></div>
+                                    <select class="theselect--themchuyenbay" id="soghechuyenbaychinhsua">
                                         <option selected value="hcm">118</option>
                                         <option value="sg">210</option>
                                         <option value="dn">108</option>
                                     </select>
                                 </div>
                                 <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="giaChuyenchinhsua">Giá Chuyến</label></div>
+                                    <input type="text"  id="giaChuyenchinhsua" placeholder="Giá chuyến?">
+                                    <div class="warning"></div>
+                                </div>
+                            </div>
+                            <button type="submit" class="_btnChuyenTiep btnthemchuyenbay" onclick="return kiemtradauvaoThemChuyenBay('giaChuyenchinhsua','ngaybaychuyenbaychinhsua')">Xác Nhận</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+            <!--/. kết thúc Modal sửa chuyến bay -->
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <form action="<%=url%>/nhan-vien-controller?hanhDong=them-chuyen-bay" method="post">
+                    <input type="hidden" name="hanhDong" value ="them-chuyen-bay">
+                    <div class="themchuyenbay">
+                        <div class="themchuyenbay-title">
+                            Thêm Chuyến Bay
+                        </div>
+                        <div class="vungchua__themchuyenbay">
+                            <div class="themchuyenbay__dong">
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="ngaybaychuyenbay">Ngày Bay</label></div>
+                                    <input name="ngayBayMoi" type="date" id="ngaybaychuyenbay" >
+                                    <div class="warning"></div>
+                                </div>
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="giobaychuyenbay">Lịch Bay</label></div>
+                                    <select name="lichBayMoi" class="theselect--themchuyenbay">
+                                    <%
+                                    	for (LichBay l : allLichBay) {
+                                    %>
+                                        <option value=<%= l.getMaLichBay() %>><%= l.getThoiGianCatCanh() %></option>
+                                    <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="themchuyenbay__dong">
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="diemdichuyenbay">Tuyến bay</label></div>
+                                    <select name="tuyenBayMoi" class="theselect--themchuyenbay" id="diemdichuyenbay">
+                                    <%
+                                    	for (TuyenBay t : allTuyenBay) {
+                                    %>
+                                        <option value=<%= t.getMaTuyenBay() %>><%= t.getNoiCatCanh() %> đến <%= t.getNoiHaCanh()%></option>
+                                    <% } %>
+                                    </select>
+                                </div>
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="loaimaybaychuyenbay">Loại Máy Bay</label></div>
+                                    <select name="maMayBayMoi" class="theselect--themchuyenbay" id="loaimaybaychuyenbay">
+                                        <%
+                                        	for (MayBay m : allMayBay) {
+                                        %>
+                                        <option value=<%= m.getMaMayBay() %>><%= m.getLoaiMayBay() %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="themchuyenbay__dong">
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="soghechuyenbay">Số Ghế</label></div>
+                                    <select class="theselect--themchuyenbay" id="soghechuyenbay">
+                                    <%
+                                    	for (MayBay m : allMayBay) {
+                                    %>
+                                        <option selected value="hcm"><%= (int)m.getSoGheHangPhoThong() * (int)m.getSoHangGhePhoThong() + (int)m.getSoGheHangThuongGia() * (int)m.getSoHangGheThuongGia()  %></option>
+                                    <% } %>
+                                    </select>
+                                </div>
+                                <div class="themchuyenbay__phantu">
                                     <div class="label"><label for="giaChuyen">Giá Chuyến</label></div>
-                                    <input type="text"  id="giaChuyen" placeholder="Giá chuyến?">
+                                    <input  name="giaMoi" type="text"  id="giaChuyen" placeholder="Giá chuyến?">
                                     <div class="warning"></div>
                                 </div>
                             </div>
@@ -121,7 +226,7 @@ if (nhanVien != null) {
                         <div class="timkiemchuyenbay__phantu" >
                             <input type="date" name="input_thoigian" id="timkiemchuyendate">
                         </div>
-                            <button type="submit" class="timkiemchuyenbay__phantu timkiemchuyenbay__phantu--btnTimChuyenBay" onclick="return hamkiemtratimkiemchuyen('timkiemchuyenMa','timkiemchuyendate')"> Tìm kiếm chuyến bay</button>
+                            <button type="submit" class="timkiemchuyenbay__phantu timkiemchuyenbay__phantu--btnTimChuyenBay" onclick="return hamkiemtratimkiemchuyen('timkiemchuyenMa','timkiemchuyendate')" style="padding: 5px 10px;"> Tìm kiếm</button>
                     </form>
                     <!-- /. kết thúc thanh tìm kiếm chuyến bay-->
                     <button type="button" class="btn btn-primary btn_themchuyenbay" data-toggle="modal" data-target="#exampleModalCenter">+ Thêm chuyên bay</button>
@@ -145,14 +250,14 @@ if (nhanVien != null) {
                             <div class="flight-lists  box-quanlychuyenbay ">
                             <%
                             ArrayList<ChuyenBay> allChuyenBay = (ArrayList<ChuyenBay>)session.getAttribute("allChuyenBay");
-                    		if (allChuyenBay == null || allChuyenBay.isEmpty()) {
+                    		if (allChuyenBay == null) {
                     			response.sendRedirect(url + "/index.jsp");
                     		}
                     		for (ChuyenBay c : allChuyenBay) {
                             %>
                             	<div class="flight-item  quanlychuyen-item">
                                     <div class=" quanlychuyen-option" >
-                                        <div class="quanlychuyen-option-item "><%= c.getMaChuyenBay() %></div>
+                                        <div class="quanlychuyen-option-item mscb"><%= c.getMaChuyenBay() %></div>
                                         <div class="quanlychuyen-option-item "><%= c.getGioBay() %> AM</div>
                                         <div class="quanlychuyen-option-item "><%= c.getNgayBay() %></div>
                                         <div class="quanlychuyen-option-item"><%= c.getDiemDen() %></div>
@@ -160,16 +265,12 @@ if (nhanVien != null) {
                                         <div class="quanlychuyen-option-item"><%= c.getMaMayBay() %></div>
                                         <div class="quanlychuyen-option-item">118</div>
                                         <div class="quanlychuyen-option-item quanlychuyen-option-item-tacvu">
-                                        	<div class="btnTacVu">
-                                        		<a href="<%= url%>/nhan-vien-controller?hanhDong=xoa-chuyen&maChuyenBayXoa=<%= c.getMaChuyenBay() %>"> 
-                                        			<i class="fa-solid fa-trash-can"></i> 
-                                        		</a>
-
-
-                                        	</div>
-                                        	<div class="btnTacVu">
-                                        		<a href="<%=url%>/nhan-vien-controller?hanhDong=ql-chuyen-bay"><i class="fa-regular fa-pen-to-square"></i></a>
-                                        	</div>
+                                        	<button type="button" class="btnTacVu btn__xoachuyen" data-toggle="modal" data-target="#xoachuyenbay" style="border: none;">
+                                        		<i class="fa-solid fa-ban"></i>
+                                        	</button>
+                                        	<button type="button" class="btnTacVu btn__suathongtinchuyen" data-toggle="modal" data-target="#suachuyenbay" style="border: none;">
+                                        		<i class="fa-regular fa-pen-to-square"></i>
+                                        	</button>
                                         </div>
                                     </div>
                                 </div>
@@ -189,5 +290,28 @@ if (nhanVien != null) {
 <!--/. Kết thúc phần tìm chuyến và chọn chuyến-->
 	<jsp:include page="includes-staff/footer-staff.jsp"></jsp:include>
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var btnTacVuList = document.querySelectorAll('.btn__suathongtinchuyen'); // Thay đổi .btnTacVu thành .btn__suathongtinchuyen
+    btnTacVuList.forEach(function(btnTacVu) {
+        btnTacVu.addEventListener('click', function() {
+            // Lấy mã chuyến bay từ phần tử HTML tương ứng
+            var maChuyenBay = this.closest('.quanlychuyen-option').querySelector('.mscb').innerText;
+            // Đặt mã chuyến bay vào input trong modal
+            document.getElementById('MaCBChinhSua').value = maChuyenBay;
+        });
+    });
+    
+    var btnXoaList = document.querySelectorAll('.btn__xoachuyen');
+    btnXoaList.forEach(function(btnXoa) {
+        btnXoa.addEventListener('click', function() {
+            // Lấy mã chuyến bay từ phần tử HTML tương ứng
+            var maChuyenBay = this.closest('.quanlychuyen-option').querySelector('.mscb').innerText;
+            // Đặt mã chuyến bay vào input trong modal
+            document.getElementById('MaCBXoa').value = maChuyenBay;
+        });
+    });
+});
+</script>
 
 </html>
