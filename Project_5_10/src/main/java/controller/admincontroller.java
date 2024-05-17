@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.*;
+import util.MaHoaMatKhau;
 import database.*;
 
 /**
@@ -64,7 +66,152 @@ public class admincontroller extends HttpServlet {
 			themLichBay(request, response);
 		} else if (hanhdong.equals("tim-kiem-lich-bay")) {
 			timKiemLichBay(request, response);
+		} else if (hanhdong.equals("them-nhan-vien")) {
+			themNhanVien(request, response);
+		} else if (hanhdong.equals("tim-kiem-nhanvien")) {
+			timKiemNhanVien(request, response);
+		} else if (hanhdong.equals("tim-kiem-khachhang")) {
+			timKiemKhachHang(request, response);
 		}
+	}
+
+	private void timKiemKhachHang(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		System.out.println("vào tìm kiếm khách hàng");
+		try {
+			String sapxep = request.getParameter("sapxep-staff");
+			String input_text = request.getParameter("input_search-staff");
+
+			System.out.println("input_text: " + input_text);
+			System.out.println("sapxep: " + sapxep);
+
+			KhachHangDAO khachHangDAO = new KhachHangDAO();
+			ArrayList<KhachHang> allKhachHang = khachHangDAO.timKiemKhachHang(sapxep, input_text);
+
+			if (allKhachHang == null) {
+				System.out.println("Không có khách hàng nào");
+			} else {
+				System.out.println("Có " + allKhachHang.size() + " khách hàng");
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("allKhachHang", allKhachHang);
+
+			String url = "/admin/customer-account.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			rd.forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void timKiemNhanVien(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		System.out.println("vào tìm kiếm nhân viên");
+		try {
+			String sapxep = request.getParameter("sapxep-staff");
+			String input_text = request.getParameter("input_search-staff");
+			
+			System.out.println("input_text: " + input_text);
+			System.out.println("sapxep: " + sapxep);
+
+			NhanVienDAO nhanVienDAO = new NhanVienDAO();
+			ArrayList<NhanVien> allNhanVien = nhanVienDAO.timKiemNhanVien(sapxep, input_text);
+			
+			if (allNhanVien == null) {
+				System.out.println("Không có nhân viên nào");
+			} else {
+				System.out.println("Có " + allNhanVien.size() + " nhân viên");
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("allNhanVien", allNhanVien);
+
+			String url = "/admin/staff-account.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			rd.forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void themNhanVien(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		System.out.println("vào thêm nhân viên");
+		try {
+			String newTenNhanVien = request.getParameter("new-name");
+			String newNgaySinh = (String) request.getParameter("new-birth");
+			String newGioiTinh = request.getParameter("new-gender");
+			String newDiaChi = request.getParameter("new-address");
+			String newSoDienThoai = request.getParameter("new-phone");
+			String newEmail = request.getParameter("new-email");
+			String newMatKhau = request.getParameter("new-password");
+			String newChucVu = "nhanvien";
+			
+			System.out.println("newTenNhanVien: " + newTenNhanVien);
+			System.out.println("newNgaySinh: " + newNgaySinh);
+			System.out.println("newGioiTinh: " + newGioiTinh);
+			System.out.println("newDiaChi: " + newDiaChi);
+			System.out.println("newSoDienThoai: " + newSoDienThoai);
+			System.out.println("newEmail: " + newEmail);
+			System.out.println("newMatKhau: " + newMatKhau);
+			System.out.println("newChucVu: " + newChucVu);
+			
+			String url = "/admin/staff-account.jsp";
+			String error = "";
+
+			TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
+			if (taiKhoanDAO.kiemTraTenDangNhap(newEmail)) {
+				System.out.println("Tên đăng nhập đã tồn tại");
+				error = "Tên đăng nhập đã tồn tại";
+			} else {
+				String maxMaTaiKhoan = taiKhoanDAO.getMaxMaTaiKhoan();
+				System.out.println("maxMaTaiKhoan: " + maxMaTaiKhoan);
+				String nextMaTaiKhoan = getNextMaTaiKhoan(maxMaTaiKhoan);
+				System.out.println("nextMaTaiKhoan: " + nextMaTaiKhoan);
+				TaiKhoan taiKhoan = new TaiKhoan(nextMaTaiKhoan, newEmail, MaHoaMatKhau.toSHA1(newMatKhau), newChucVu);
+				taiKhoanDAO.themTaiKhoan(taiKhoan);
+
+				NhanVienDAO nhanVienDAO = new NhanVienDAO();
+				String maxMaNhanVien = nhanVienDAO.getMaxMaNhanVien();
+				System.out.println("maxMaNhanVien: " + maxMaNhanVien);
+				String nextMaNhanVien = getNextMaNhanVien(maxMaNhanVien);
+				System.out.println("nextMaNhanVien: " + nextMaNhanVien);
+				Date ngaySinh = Date.valueOf(newNgaySinh);
+				NhanVien nhanVien = new NhanVien(nextMaNhanVien, nextMaTaiKhoan, newTenNhanVien, ngaySinh, newSoDienThoai,
+						newEmail, newDiaChi, newGioiTinh.equals("1"));
+				NhanVienDAO.themNhanVien(nhanVien, taiKhoan);
+
+				System.out.println("Thêm nhân viên thành công");
+			}
+
+			System.out.println("Thêm nhân viên thành công");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		HttpSession session = request.getSession();
+		response.setContentType("text/html;charset=UTF-8");
+		quanLyNhanVien(request, response);
+	}
+
+	private String getNextMaNhanVien(String maxMaNhanVien) {
+		if (maxMaNhanVien == null || maxMaNhanVien.isEmpty()) {
+			return "NV1";
+		}
+		String numericPart = maxMaNhanVien.substring(2);
+		int number = Integer.parseInt(numericPart);
+		number++;
+		return "NV" + number;
+	}
+
+	private String getNextMaTaiKhoan(String maxMaTaiKhoan) {
+		if (maxMaTaiKhoan == null || maxMaTaiKhoan.isEmpty()) {
+			return "TKNV1";
+		}
+		String numericPart = maxMaTaiKhoan.substring(4);
+		int number = Integer.parseInt(numericPart);
+		number++;
+		return "TKNV" + number;
 	}
 
 	private void timKiemLichBay(HttpServletRequest request, HttpServletResponse response) {
@@ -328,6 +475,16 @@ public class admincontroller extends HttpServlet {
 			HttpSession session = request.getSession();
 			response.setContentType("text/html;charset=UTF-8");
 			
+			ArrayList<KhachHang> allKhachHang = new KhachHangDAO().selectAll();
+			
+			if (allKhachHang == null) {
+				System.out.println("Không có khách hàng nào");
+			} else {
+				System.out.println("Có " + allKhachHang.size() + " khách hàng");
+			}
+			
+			session.setAttribute("allKhachHang", allKhachHang);
+			
 			String url = "/admin/customer-account.jsp";
 			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
@@ -343,7 +500,18 @@ public class admincontroller extends HttpServlet {
 			HttpSession session = request.getSession();
 			response.setContentType("text/html;charset=UTF-8");
 			
+			HoaDonDAO hoaDonDAO = new HoaDonDAO();
+			ArrayList<HoaDon> allHoaDon = hoaDonDAO.selectAll();
+			
 			String url = "/admin/revenue.jsp";
+			
+			session.setAttribute("allHoaDon", allHoaDon);
+			
+			if (allHoaDon == null) {
+				System.out.println("Không có hóa đơn nào");
+			} else {
+				System.out.println("Có " + allHoaDon.size() + " hóa đơn");
+			}
 			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 			rd.forward(request, response);
@@ -351,7 +519,6 @@ public class admincontroller extends HttpServlet {
             System.err.println(e.toString());
         }
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -359,14 +526,5 @@ public class admincontroller extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
-	
-	// quản lý tài khoản
-	
-	// quản lý tuyến bay
-	
-	// quản ký lịch bay
-	
-	// quản lý máy bay
 
 }

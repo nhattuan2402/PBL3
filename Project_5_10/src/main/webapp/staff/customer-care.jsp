@@ -77,6 +77,10 @@ if (allHoTro == null ){
 	margin-right: 10px;
 	margin-top: 10px;
 }
+
+.none-border {
+	border: none;
+}
 </style>
 <title>Chăm sóc khách hàng</title>
 <jsp:include page="includes-staff/header-staff.jsp"></jsp:include>
@@ -84,6 +88,54 @@ if (allHoTro == null ){
 <body>
 	<jsp:include page="includes-staff/navbar-staff.jsp"></jsp:include>
 	<div class="container quanlychuyenbay">
+	                <!-- Modal Chi tiết yêu cầu khách hàng -->
+             <div class="modal fade" id="xoachuyenbay" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <form action="#" method="post">
+                    <div class="themchuyenbay">
+                        <div class="themchuyenbay-title">
+                            Thông Tin Chi Tiết Yêu Cầu Khách Hàng
+                        </div>
+                        <div class="vungchua__themchuyenbay">
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="MaCBXoa">Mã CSKH</label></div>
+                                    <input type="text" id="MaCBXoa" class="macbXoa" readonly>
+                                </div>
+                                <div class="themchuyenbay__dong">
+                                    <div class="themchuyenbay__phantu">
+                                        <div class="label"><label for="ngaybaychuyenbaychinhsua">Email Khách Hàng</label></div>
+                                        <div class="noidungthechitietCSKH">ndtrg281@gmail.com</div>
+                                    </div>
+                                    <div class="themchuyenbay__phantu">
+                                        <div class="label"><label for="giobaychuyenbaychinhsua">Thời Gian Yêu Cầu</label></div>
+                                        <div class="noidungthechitietCSKH">2024-05-17</div>
+                                    </div>
+                                </div>
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="giobaychuyenbaychinhsua">Mô Tả Yêu Cầu</label></div>
+                                    <div class="noidungthechitietCSKH">Quá trời quá đất hahahaha hôm nay trời nắng không mưa đồ đồ </div>
+                                </div>
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="giobaychuyenbaychinhsua motachitietyeucau">Mô Tả Chi Tiết</label></div>
+                                    <div class="noidungthechitietCSKH">
+                                        Thơ là hình thức nghệ thuật dùng từ trong ngôn ngữ làm chất liệu và sự chọn lọc từ cũng như tổ hợp của chúng được sắp xếp dưới hình thức
+                                         logic nhất định tạo nên hình ảnh hay gợi cảm âm thanh có tính thẩm mĩ cho người đọc, người nghe. Từ thơ thường được đi kèm với từ câu để chỉ
+                                          một câu thơ, hay với từ bài để chỉ một bài thơ. Một câu thơ là một hình thức câu cô đọng, truyền đạt một hoặc nhiều hình ảnh, có ý nghĩa cho người đọc, 
+                                          và hoàn chỉnh trong cấu trúc ngữ pháp. Một câu thơ có thể đứng nguyên một mình. Một bài thơ là tổ hợp của các câu thơ. Tính cô đọng trong số lượng từ, 
+                                          tính tượng hình và dư âm thanh nhạc trong thơ biến nó thành một hình thức nghệ thuật độc đáo, tách biệt hẳn khỏi các hình thức nghệ thuật khác.
+                                     </div>
+                                </div>
+                        </div>
+
+                        <div class="modal-footer chantrangxoachuyen">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary _btnChuyenTiep btnxacnhanxoachuyen">Xác Nhận</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+            <!--/. kết thúc Modal chi tiết yêu cầu khách hang -->
 	<!-- Modal xóa chuyến bay -->
           <div class="modal fade" id="phanhoi-CSKH" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
              <div class="modal-dialog modal-dialog-centered" role="document">
@@ -117,7 +169,7 @@ if (allHoTro == null ){
            </div>
        </div>
          <!-- /. kết thúc thanh tiêu đề-->
-
+			
        <div class="vungchua1">
            <!-- thanh tìm kiếm chuyến bay-->
            <form action="<%= url%>/nhan-vien-controller" class="timkiemchuyenbay timkiemchuyenbay--quanlychuyen">
@@ -147,11 +199,10 @@ if (allHoTro == null ){
                <div class="box-flight-list" >
                    <div class="flight-list-header box-quanlychuyenbay ">
                        <div class="flight-list-header__item ">ID</div>
-                       <div class="flight-list-header__item ">Tiêu đề</div>
                        <div class="flight-list-header__item ">Email</div>
                        <div class="flight-list-header__item">Thời gian nhận</div>
-                       <div class="flight-list-header__item">Mô tả</div>
                        <div class="flight-list-header__item">Trạng thái</div>
+                       <div class="flight-list-header__item">Thông tin chi tiết</div>
                        <div class="flight-list-header__item">Phản hồi</div>
                    </div>
                    <div class="flight-lists  box-quanlychuyenbay ">
@@ -165,16 +216,19 @@ if (allHoTro == null ){
                    	<div class="flight-item  quanlychuyen-item">
                          <div class=" quanlychuyen-option" >
 							<div class="quanlychuyen-option-item mscb"><%= h.getMaHoTro() %></div>
-                             	<div class="quanlychuyen-option-item "><%= h.getTieuDe() %> </div>
                              	<div class="quanlychuyen-option-item "><%= h.getEmail() %></div>
                              	<div class="quanlychuyen-option-item"><%= h.getThoiGian() %></div>
-                             	<div class="quanlychuyen-option-item"><%= h.getMoTa() %></div>
                              	<div class="quanlychuyen-option-item"><%= status %></div>
                              	<div class="quanlychuyen-option-item quanlychuyen-option-item-tacvu">
-	                             	<button type="button" class="btnTacVu" data-toggle="modal" data-target="#phanhoi-CSKH" >
+                                    <button type="button" class="btnTacVu btn__xoachuyen none-border" data-toggle="modal" data-target="#xoachuyenbay">
+                                        <i class="fa-solid fa-info"></i>
+                                    </button>
+                                </div>
+                             	<div class="quanlychuyen-option-item quanlychuyen-option-item-tacvu">
+	                             	<button type="button" class="btnTacVu none-border" data-toggle="modal" data-target="#phanhoi-CSKH" >
                                 		<i class="fa-regular fa-pen-to-square"></i>
                                 	</button>
-                        		</div>
+                        	</div>
                          </div>
                       </div>
                    <% 
@@ -196,30 +250,35 @@ document.addEventListener("DOMContentLoaded", function() {
     btnTacVuList.forEach(function(btnTacVu) {
         btnTacVu.addEventListener('click', function() {
             // Lấy mã hỗ trợ từ phần tử HTML tương ứng
-            var maHoTro = this.closest('.quanlychuyen-option').querySelector('.mscb').innerText;
+            var maHoTro = this.closest('.quanlychuyen 	-option').querySelector('.mscb').innerText;
             // Đặt mã hỗ trợ vào input trong modal
-            document.getElementById('MaCBXoa').value = maHoTro;
-        });
-    });
-});
+            //document.getElementById('MaCBXoa-2').value = maHoTro;
+            document.querySelectorAll('.macbXoa').forEach(function(input) {
+					input.value = maHoTro;
+				});
+				//('MaCBXoa').value = maHoTro;
 
-document.addEventListener("DOMContentLoaded", function() {
-    var selectBox = document.getElementById('statusFilter');
-    var flightItems = document.querySelectorAll('.flight-item');
+			});
+		});
+	});
 
-    selectBox.addEventListener('change', function() {
-        var selectedValue = this.value;
+	document.addEventListener("DOMContentLoaded", function() {
+		var selectBox = document.getElementById('statusFilter');
+		var flightItems = document.querySelectorAll('.flight-item');
 
-        flightItems.forEach(function(item) {
-            var status = item.querySelector('.status').innerText;
+		selectBox.addEventListener('change', function() {
+			var selectedValue = this.value;
 
-            if (selectedValue === '' || status === selectedValue) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    });
-});
+			flightItems.forEach(function(item) {
+				var status = item.querySelector('.status').innerText;
+
+				if (selectedValue === '' || status === selectedValue) {
+					item.style.display = 'block';
+				} else {
+					item.style.display = 'none';
+				}
+			});
+		});
+	});
 </script>
 </html>

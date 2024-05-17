@@ -87,5 +87,23 @@ public class TaiKhoanDAO {
 	
 	public static void main(String[] args) {
 		
+	}
+
+	public String getMaxMaTaiKhoan() {
+		String result = null;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT MAX(id_taikhoan) FROM taikhoan";
+            PreparedStatement st = con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                result = rs.getString(1);
+                break;
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+        return result;
 	}	
 }

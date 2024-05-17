@@ -118,81 +118,84 @@ public class nhanviencontroller extends HttpServlet {
 	}
 
 	private void phanHoiHoTro(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		try {
-            String idHoTro = request.getParameter("idHoTro");
-            String responseMessage = request.getParameter("responseMessage");
-            
-            System.out.println("idHoTro: " + idHoTro);
-            System.out.println("responseMessage: " + responseMessage);
-            
-            HoTroDAO hoTroDAO = new HoTroDAO();
-            HoTro hoTro = hoTroDAO.selectByID(idHoTro);
-            
-            if (hoTro != null && responseMessage != null && !responseMessage.trim().isEmpty()) {
-                // Gửi email phản hồi
-                sendEmailResponse(hoTro.getEmail(), responseMessage);
+	    try {
+	        String idHoTro = request.getParameter("idHoTro");
+	        String responseMessage = request.getParameter("responseMessage");
+	        
+	        System.out.println("idHoTro: " + idHoTro);
+	        System.out.println("responseMessage: " + responseMessage);
+	        
+	        HoTroDAO hoTroDAO = new HoTroDAO();
+	        HoTro hoTro = hoTroDAO.selectByID(idHoTro);
+	        
+	        if (hoTro != null && responseMessage != null && !responseMessage.trim().isEmpty()) {
+	            // Gửi email phản hồi
+	            sendEmailResponse(hoTro.getEmail(), responseMessage);
 
-                // Cập nhật trạng thái yêu cầu hỗ trợ
-                hoTro.setTrangThai(true);
-                hoTroDAO.Update(hoTro);
+	            // Cập nhật trạng thái yêu cầu hỗ trợ
+	            hoTro.setTrangThai(true);
+	            hoTroDAO.Update(hoTro);
 
-                // Điều hướng lại trang danh sách hỗ trợ
-                response.sendRedirect("nhan-vien-controller?hanhDong=cham-soc-khach-hang");
-            } else {
-                response.sendRedirect("nhan-vien-controller?hanhDong=cham-soc-khach-hang&error=invalid_request");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("nhan-vien-controller?hanhDong=cham-soc-khach-hang&error=exception");
-        }
+	            // Điều hướng lại trang danh sách hỗ trợ
+	            response.sendRedirect("nhan-vien-controller?hanhDong=cham-soc-khach-hang");
+	        } else {
+	            response.sendRedirect("nhan-vien-controller?hanhDong=cham-soc-khach-hang&error=invalid_request");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        response.sendRedirect("nhan-vien-controller?hanhDong=cham-soc-khach-hang&error=exception");
+	    }
 	}
 
 	private void sendEmailResponse(String email, String responseMessage) {
-		String host = "smtp.example.com";
-        final String from = "phanvantoan.contact@gmail.com";
-        final String password = "sewu piwq aywc afbb";
+	    String host = "smtp.gmail.com";
+	    final String from = "phanvantoan.contact@gmail.com";
+	    final String password = "sewu piwq aywc afbb";
 
-        Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP Host
-		props.put("mail.smtp.port", "smtp.gmail.com"); // TLS Port 587, SSL Port 465
-		props.put("mail.smtp.auth", "true"); // Enable Authentication
-		props.put("mail.smtp.starttls.enable", "true"); // Enable StartTLS
+	    Properties props = new Properties();
+	    props.put("mail.smtp.host", host); // SMTP Host
+	    props.put("mail.smtp.port", "587"); // TLS Port
+	    props.put("mail.smtp.auth", "true"); // Enable Authentication
+	    props.put("mail.smtp.starttls.enable", "true"); // Enable StartTLS
 
-		Authenticator auth = new Authenticator() {
+	    Authenticator auth = new Authenticator() {
+	        @Override
+	        protected PasswordAuthentication getPasswordAuthentication() {
+	            return new PasswordAuthentication(from, password);
+	        }
+	    };
+	    
+	    Session session = Session.getInstance(props, auth);      
+	    // Create MimeMessage
+	    MimeMessage msg = new MimeMessage(session);
+	    try {
+	        // Set Message
+	        msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+	        // Set From
+	        msg.setFrom(new InternetAddress(from));
+	        // Set To
+	        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+	        // Set Subject
+	        msg.setSubject("PHẢN HỒI YÊU CẦU HỖ TRỢ TỪ BACONCUU AIRLINES");
+	        // Set Date Sent
+	        msg.setSentDate(new java.util.Date());
+	        // Set Message
+	     // Construct the message content
+	        String fullMessage = responseMessage + "\n\n"
+	                + "Cảm ơn quý khách đã liên hệ với BACONCUU AIRLINES.\n"
+	                + "Nếu có bất kỳ câu hỏi nào, xin vui lòng liên hệ chúng tôi: \n"
+	                + "Email: support.baconcuuairlines@.com \n"
+	                + "Số điện thoại: 0707201045.";
 
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				// TODO Auto-generated method stub
-				return new PasswordAuthentication(from, password);
-			}
-			
-		};
-		
-		Session session = Session.getInstance(props, auth);      
-		// Create MimeMessage
- 		MimeMessage msg = new MimeMessage(session);
- 		try {
- 			// Set Message
- 			msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
- 			// Set From
- 			msg.setFrom(from);
- 			// Set To
- 			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
- 			// Set Subject
- 			msg.setSubject("Response to Your Support Request");
- 			// Set Date Sent
- 			msg.setSentDate(new java.util.Date());
- 			// Set Reply To
- 			// msg.setReplyTo(InternetAddress.parse(from, false));
- 			// Set Message
- 			msg.setText(responseMessage, "UTF-8");
- 			// Send Email
- 			Transport.send(msg);
- 		} catch (MessagingException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 		}
+	        // Set the message content
+	        msg.setText(fullMessage, "UTF-8");
+	        // Send Email
+	        Transport.send(msg);
+	    } catch (MessagingException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	private void themChuyenBay(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Them chuyen bay");
@@ -336,7 +339,17 @@ public class nhanviencontroller extends HttpServlet {
 			HttpSession session = request.getSession();
 			response.setContentType("text/html;charset=UTF-8");
 			
+			HoaDonDAO hoaDonDAO = new HoaDonDAO();
+			ArrayList<HoaDon> allHoaDon = hoaDonDAO.selectAll();
+			
 			String url = "/staff/revenue.jsp";
+			session.setAttribute("allHoaDon", allHoaDon);
+			
+			if (allHoaDon == null) {
+				System.out.println("Không có hóa đơn nào");
+			} else {
+				System.out.println("Có " + allHoaDon.size() + " hóa đơn");
+			}
 			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 			rd.forward(request, response);

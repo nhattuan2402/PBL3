@@ -26,11 +26,35 @@ if (allNhanVien == null) {
 <title>QL Nhân viên</title>
 <jsp:include page="includes-admin/header-admin.jsp"></jsp:include>
 </head>
+<style>
+.themchuyenbay__dong select {
+	width: 100%;
+	padding: 5px;
+	border: none;
+	outline: none;
+	padding: 1rem;
+	border-radius: 0.5rem;
+}
+
+.timkiemchuyenbay__phantu:first-child {
+	margin-left: 20px;
+}
+
+.timkiemchuyenbay__phantu select {
+	width: 100%;
+	padding-bottom: 8px;
+	margin-right: 10px;
+	border: none;
+	outline: none;
+	border-radius: 0.5rem;
+	width: fit-content;
+}
+</style>
 <body>
 	<jsp:include page="includes-admin/navbar-admin.jsp"></jsp:include>
 	
 	<!-- chọn chuyến bay-->
-        <div class="container quanlychuyenbay">
+        <div class="container-fluid quanlychuyenbay">
 			<!-- Modal xóa chuyến bay -->
              <div class="modal fade" id="xoachuyenbay" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -59,7 +83,7 @@ if (allNhanVien == null) {
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <form action="<%=url%>/admin-controller" method="post">
-                    <input type="hidden" name="hanhDong" value ="them-tuyen-bay">
+                    <input type="hidden" name="hanhDong" value ="them-nhan-vien">
                     <div class="themchuyenbay">
                         <div class="themchuyenbay-title">
                             Thêm Nhân viên
@@ -67,20 +91,47 @@ if (allNhanVien == null) {
                         <div class="vungchua__themchuyenbay">
                             <div class="themchuyenbay__dong">
                                 <div class="themchuyenbay__phantu">
-                                    <div class="label"><label for="giaChuyen">Điểm đi</label></div>
-                                    <input  name="new-chuyenDi" type="text"  id="giaChuyen giaChuyenDi" placeholder="Điểm đi ...">
+                                    <div class="label"><label for="giaChuyen">Họ và tên</label></div>
+                                    <input  name="new-name" type="text"  id="giaChuyen" placeholder="Họ và tên?" required>
                                     <div class="warning"></div>
                                 </div>
                                 <div class="themchuyenbay__phantu">
-                                    <div class="label"><label for="giaChuyen">Điểm đến</label></div>
-                                    <input  name="new-chuyenDen" type="text"  id="giaChuyen giaChuyenDen" placeholder="Điểm đến ...">
+                                    <div class="label"><label for="giaChuyen">Ngày tháng năm sinh</label></div>
+                                    <input  name="new-birth" type="date"  id="giaChuyen" placeholder="Ngày tháng năm sinh?" required>
                                     <div class="warning"></div>
                                 </div>
                             </div>
                             <div class="themchuyenbay__dong">
                                 <div class="themchuyenbay__phantu">
-                                    <div class="label"><label for="giaChuyen">Thời gian</label></div>
-                                    <input  name="new-GiaMoi" type="text"  id="giaChuyen giaChuyenThoiGian" placeholder="Thời gian tuyến bay">
+                                    <div class="label"><label for="giaChuyen">Email</label></div>
+                                    <input  name="new-email" type="email"  id="giaChuyen" placeholder="abc@gmail.com" required>
+                                    <div class="warning"></div>
+                                </div>
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="giaChuyen">Số điện thoại</label></div>
+                                    <input  name="new-phone" type="text"  id="giaChuyen" placeholder="0123..." required>
+                                    <div class="warning"></div>
+                                </div>
+                            </div>
+                            <div class="themchuyenbay__dong">
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="giaChuyen">Địa chỉ</label></div>
+                                    <input  name="new-address" type="text"  id="giaChuyen" placeholder="Địa chỉ?" required>
+                                    <div class="warning"></div>
+                                </div>
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="giaChuyen">Giới tính</label></div>
+                                    <select name="new-gender" id="giaChuyen" required>
+										<option value="1">Nam</option>
+										<option value="0">Nữ</option>
+									</select>
+									<div class="warning"></div>
+								</div>
+                            </div>
+                            <div class="themchuyenbay__dong">
+                                <div class="themchuyenbay__phantu">
+                                    <div class="label"><label for="giaChuyen">Mật khẩu</label></div>
+                                    <input  name="new-password" type="password"  id="giaChuyen" placeholder="Mật khẩu ..." required>
                                     <div class="warning"></div>
                                 </div>
                             </div>
@@ -106,13 +157,17 @@ if (allNhanVien == null) {
                 <div class="vungchua1">
                     <!-- thanh tìm kiếm chuyến bay-->
                     <form action="<%= url%>/admin-controller" class="timkiemchuyenbay timkiemchuyenbay--quanlychuyen">
-                    	<input type="hidden" name="hanhDong" value="tim-kiem-tuyen">
+                    	<input type="hidden" name="hanhDong" value="tim-kiem-nhanvien">
                         <div class="timkiemchuyenbay__phantu" >
-                            <input type="text" name="input__diemdi-new" class="input__machyen" placeholder="Mã Chuyến Đi?" id="timkiemchuyenMa">
+                            <input type="text" name="input_search-staff" class="input__machyen" placeholder="Nhập..." id="timkiemchuyenMa">
                         </div>
-
                         <div class="timkiemchuyenbay__phantu" >
-                             <input type="text" name="input__diemden-new" class="input__machyen" placeholder="Mã Chuyến Đến?" id="timkiemchuyenMa">
+	                        <select name="sapxep-staff">
+	                        	<option value="1">Tất cả</option>
+	                        	<option value="2">Họ và tên</option>
+	                        	<option value="3">Email</option>
+	                        	<option value="4">Địa chỉ</option>
+	                        </select>	
                         </div>
                             <button type="submit" class="timkiemchuyenbay__phantu timkiemchuyenbay__phantu--btnTimChuyenBay" onclick="return hamkiemtratimkiemchuyen('timkiemchuyenMa','timkiemchuyendate')" style="padding: 5px 10px;"> Tìm kiếm</button>
                     </form>
@@ -130,8 +185,8 @@ if (allNhanVien == null) {
                                 <div class="flight-list-header__item msb">Mã Tài Khoản</div>
                                 <div class="flight-list-header__item">Họ tên</div>
                                 <div class="flight-list-header__item">Ngày sinh</div>
-                                <div class="flight-list-header__item">Email</div>
                                 <div class="flight-list-header__item">Số điện thoại</div>
+                                <div class="flight-list-header__item">Email</div>
                                 <div class="flight-list-header__item">Địa chỉ</div>
                                 <div class="flight-list-header__item">Giới tính</div>
                                  <div class="flight-list-header__item">Tác vụ</div>

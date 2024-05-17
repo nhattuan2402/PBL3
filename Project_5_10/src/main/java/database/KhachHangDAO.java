@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-
+import java.util.ArrayList;
 
 import model.KhachHang;
 import model.TaiKhoan;
@@ -131,6 +131,86 @@ public class KhachHangDAO {
 				result = new KhachHang(kh.getMaKhachHang(), maTaiKhoan, hoVaTen, Date.valueOf(ngaySinh), email, soDienThoai, diaChi, gioiTinh);
 				break;
 			}
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+		return result;
+	}
+
+
+	public ArrayList<KhachHang> selectAll() {
+		ArrayList<KhachHang> result = new ArrayList<KhachHang>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM khachhang";
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int soCot = rsmd.getColumnCount();
+			while (rs.next()) {
+				for (int i = 1; i <= soCot; i++) {
+					System.out.print(rs.getObject(i) + "\t");
+				}
+				System.out.println();
+
+				String maKhachHang = rs.getString("id_khachhang");
+				String maTaiKhoan = rs.getString("id_taikhoan");
+				String hoVaTen = rs.getString("hovaten");
+				String ngaySinh = rs.getString("ngaysinh");
+				String email = rs.getString("email");
+				String soDienThoai = rs.getString("sodienthoai");
+				String diaChi = rs.getString("diachi");
+				boolean gioiTinh = rs.getBoolean("gioiTinh");
+
+				KhachHang kh = new KhachHang(maKhachHang, maTaiKhoan, hoVaTen, Date.valueOf(ngaySinh), email,
+						soDienThoai, diaChi, gioiTinh);
+				result.add(kh);
+			}
+
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+		return result;
+	}
+
+
+	public ArrayList<KhachHang> timKiemKhachHang(String sapxep, String input_text) {
+		ArrayList<KhachHang> result = new ArrayList<KhachHang>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM khachhang WHERE 1=1 ";
+			PreparedStatement st = null;
+			
+			if (!input_text.equals("")) {
+				if (sapxep.equals("2")) {
+					sql += "AND hovaten LIKE ?";
+				} else if (sapxep.equals("3")) {
+					sql += "AND email LIKE ?";
+				} else if (sapxep.equals("4")) {
+					sql += "AND diachi LIKE ?";
+				} 
+			}
+				st = con.prepareStatement(sql);
+				
+				if (!input_text.equals("")) {
+					st.setString(1, "%" + input_text + "%");
+				}
+				ResultSet rs = st.executeQuery();
+				while (rs.next()) {
+					String maKhachHang = rs.getString("id_khachhang");
+					String maTaiKhoan = rs.getString("id_taikhoan");
+					String hoVaTen = rs.getString("hovaten");
+					String ngaySinh = rs.getString("ngaysinh");
+					String email = rs.getString("email");
+					String soDienThoai = rs.getString("sodienthoai");
+					String diaChi = rs.getString("diachi");
+					boolean gioiTinh = rs.getBoolean("gioiTinh");
+					KhachHang kh = new KhachHang(maKhachHang, maTaiKhoan, hoVaTen, Date.valueOf(ngaySinh), email,
+							soDienThoai, diaChi, gioiTinh);
+					result.add(kh);
+				}
+				rs.close();
+				JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		}

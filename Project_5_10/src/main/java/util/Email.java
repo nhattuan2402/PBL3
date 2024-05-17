@@ -44,7 +44,7 @@ public class Email {
 		Session session = Session.getInstance(props, auth);
 		
 		// Send Email
-		final String to = "nguyendangtruong7122004@gmail.com";
+		final String to = "toanyogame@gmail.com";
 		
 		// Create MimeMessage
 		MimeMessage msg = new MimeMessage(session);

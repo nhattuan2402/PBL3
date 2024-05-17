@@ -53,7 +53,6 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 				<ul class="nav navbar-nav navbar-right ml-auto">
 					<li class="nav-item active"><a class="nav-link" href="<%=url%>/nhan-vien-controller?hanhDong=trang-chu">Trang chủ</a></li>
 					<li class="nav-item"><a class="nav-link" href="<%=url%>/nhan-vien-controller?hanhDong=ql-chuyen-bay">Chuyến bay</a></li>
-					<li class="nav-item"><a class="nav-link" href="<%=url%>/nhan-vien-controller?hanhDong=ql-ve-may-bay">Vé máy bay</a></li>
 					<li class="nav-item"><a class="nav-link" href="<%=url%>/nhan-vien-controller?hanhDong=cham-soc-khach-hang">Chăm sóc Khách hàng</a></li>
 					<li class="nav-item"><a class="nav-link" href="<%=url%>/nhan-vien-controller?hanhDong=thong-ke-doanh-thu">Doanh thu</a></li>
 					<li class="nav-item"><a class="nav-link" href=""><span style="color: red; font-weight: BOLD;">${nhanVien.getHoVaTen()}</span></a></li>

@@ -70,9 +70,6 @@ public class NhanVienDAO {
 				st.setString(7,nv.getDiaChi());
 				st.setBoolean(8,nv.isGioiTinh());
 				st.executeUpdate();
-				
-				
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -137,6 +134,71 @@ public class NhanVienDAO {
 					result.add(nv);
 				}
 
+			} catch (Exception e) {
+				System.err.println(e.toString());
+			}
+			return result;
+		}
+
+		public String getMaxMaNhanVien() {
+			String result = null;
+			try {
+				Connection con = JDBCUtil.getConnection();
+				String sql = "SELECT MAX(id_nhanvien) FROM nhanvien";
+				PreparedStatement st = con.prepareStatement(sql);
+				ResultSet rs = st.executeQuery();
+				while (rs.next()) {
+					result = rs.getString(1);
+					break;
+				}
+				JDBCUtil.closeConnection(con);
+			} catch (Exception e) {
+				System.err.println(e.toString());
+			}
+			return result;
+		}
+
+		public ArrayList<NhanVien> timKiemNhanVien(String sapxep, String input) {
+			ArrayList<NhanVien> result = new ArrayList<NhanVien>();
+			try {
+				Connection con = JDBCUtil.getConnection();
+				String sql = "SELECT * FROM NHANVIEN WHERE 1=1 ";
+				PreparedStatement st = null;
+				
+				
+				if (!input.equals("")) {
+					if (sapxep.equals("2")) {
+						sql += "AND hovaten LIKE ?";
+					} else if (sapxep.equals("3")) {
+						sql += "AND email LIKE ?";
+					} else if (sapxep.equals("4")) {
+						sql += "AND diachi LIKE ?";
+					}
+				}
+				st = con.prepareStatement(sql);
+				
+				if (!input.equals("")) {
+                    st.setString(1, "%" + input + "%");
+                }
+				ResultSet rs = st.executeQuery();
+				
+				while (rs.next()) {
+					String maNhanVien = rs.getString("id_nhanvien");
+                    String maTaiKhoan = rs.getString("id_taikhoan");
+                    String hoVaTen = rs.getString("hovaten");
+                    String ngaySinh = rs.getString("ngaysinh");
+                    String email = rs.getString("email");
+                    String soDienThoai = rs.getString("sodienthoai");
+                    String diaChi = rs.getString("diachi");
+                    boolean gioiTinh = rs.getBoolean("gioiTinh");
+
+                    NhanVien nv = new NhanVien(maNhanVien, maTaiKhoan, hoVaTen, Date.valueOf(ngaySinh), email,
+                            soDienThoai, diaChi, gioiTinh);
+                    result.add(nv);
+				} ;
+				rs.close();
+				JDBCUtil.closeConnection(con);
+				
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}
