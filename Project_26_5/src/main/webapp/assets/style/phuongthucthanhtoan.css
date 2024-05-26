@@ -1,0 +1,182 @@
+.trangchonphuongthucthanhtoan {
+    background-image: radial-gradient(50% 50% at 50% 50%, rgba(160, 51, 255, .024) 0%, rgba(160, 51, 255, 0) 50%), radial-gradient(50% 50% at 50% 50%, rgba(160, 51, 255, .04) 0%, rgba(160, 51, 255, 0) 75%), radial-gradient(50% 50% at 50% 50%, rgba(160, 51, 255, .064) 0%, rgba(160, 51, 255, 0) 100%), radial-gradient(50% 50% at 50% 50%, rgba(24, 119, 242, .024) 0%, rgba(24, 119, 242, 0) 50%), radial-gradient(50% 50% at 50% 50%, rgba(24, 119, 242, .04) 0%, rgba(24, 119, 242, 0) 75%), radial-gradient(50% 50% at 50% 50%, rgba(24, 119, 242, .064) 0%, rgba(24, 119, 242, 0) 100%), radial-gradient(50% 50% at 50% 50%, rgba(255, 108, 92, .024) 0%, rgba(255, 108, 92, 0) 50%), radial-gradient(50% 50% at 50% 50%, rgba(255, 108, 92, .04) 0%, rgba(255, 108, 92, 0) 75%), radial-gradient(50% 50% at 50% 50%, rgba(255, 108, 92, .064) 0%, rgba(255, 108, 92, 0) 100%), radial-gradient(50% 50% at 50% 50%, rgba(245, 206, 51, .024) 0%, rgba(245, 206, 51, 0) 50%), radial-gradient(50% 50% at 50% 50%, rgba(245, 206, 51, .04) 0%, rgba(245, 206, 51, 0) 75%), radial-gradient(50% 50% at 50% 50%, rgba(245, 206, 51, .064) 0%, rgba(245, 206, 51, 0) 100%), radial-gradient(50% 50% at 50% 50%, rgba(37, 211, 102, .024) 0%, rgba(37, 211, 102, 0) 50%), radial-gradient(50% 50% at 50% 50%, rgba(37, 211, 102, .04) 0%, rgba(37, 211, 102, 0) 75%), radial-gradient(50% 50% at 50% 50%, rgba(37, 211, 102, .064) 0%, rgba(37, 211, 102, 0) 100%), radial-gradient(50% 50% at 50% 50%, rgba(24, 119, 242, .024) 0%, rgba(24, 119, 242, 0) 50%), radial-gradient(50% 50% at 50% 50%, rgba(24, 119, 242, .04) 0%, rgba(24, 119, 242, 0) 75%), radial-gradient(50% 50% at 50% 50%, rgba(24, 119, 242, .064) 0%, rgba(24, 119, 242, 0) 100%);
+    border-bottom: 2px solid whitesmoke;
+    padding: 3rem 0;
+}
+
+.background-white {
+    background-color: whitesmoke;
+    border-radius: 0.5rem;
+}
+.box-shadow-blackcolor {
+    box-shadow: 0px 4px 9px 3px rgb(17, 19, 21,0.2);
+}
+.img__thanhtoan {
+    width: auto;
+    height: 40px;
+    border-radius: 0.5rem;
+}
+.phuongthucthanhtoan {
+    width: fit-content;
+    border: 2px solid #605DEC;
+    display: flex;
+    border-radius: 0.6rem;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: center;
+    box-shadow: 0px 4px 9px 3px rgba(1, 3, 5, 0.1);
+    padding: 0;
+}
+.phuongthuc {
+    text-align: center;
+    flex: 1;
+    padding: 0.5rem;
+    min-width: max-content;
+    display: inline-flex;
+    justify-content: space-around;
+}
+.phuongthuc:hover {
+   background-color: rgb(198, 242, 218);
+}
+.tenphuongtuc {
+    transform: translateY(22%);
+    margin-left: 3px;
+    font-weight: bold;
+    color: #0f294d;
+}
+.noidungchitietthanhtoan {
+    margin-top: 1rem;
+    background-color: whitesmoke;
+    border-radius: 0.4rem;
+    padding: 2rem;
+    border-radius: 0.4rem;
+    box-shadow: 0px 4px 9px 3px rgba(1, 3, 5, 0.1);
+}
+.thitietthianhtoan__dong {
+    display: flex;
+    justify-content: space-between;
+    font-size: medium;
+    padding: 0.5rem 0;
+
+}
+.dongtongtien {
+    border-top: 2px solid var(--white-color);
+}
+.chitietthanhtoan__title {
+    font-weight: bold;
+    font-size: larger;
+    color:#0f294d;
+    margin-top: 2rem;
+}
+.box__checksudungma {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin-top: 3px;
+}
+.btnSubmit__magiamgia {
+    padding: 1rem;
+    margin-left: 2rem;
+}
+.magiamgia {
+    margin-top: 1rem;
+}
+#magiamgia {
+    display: none;
+}
+.box_makhuyenmai {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    box-shadow: 0px 4px 9px 3px rgba(1, 3, 5, 0.1);
+    padding:  1rem;
+    border-radius: 0.3rem;
+    justify-content: space-around;
+}
+.input__mathanhtoan {
+    padding: 0.5rem 1rem;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid var(--brand-color);
+    background-color: whitesmoke;
+}
+.btnSubmit__magiamgia {
+    background-color: var(--brand-color);
+    color: var(--white-color);
+    border-radius: 0.3rem;
+
+}
+.select__phuongthuc {
+    background-color: var(--brand-color);
+    border-radius: 0.5rem;
+}
+.select__phuongthuc div {
+    color: white;
+}
+.thanhdieuhuong__phuongthucthanhtoan {
+    margin-top: 4rem;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+.btn__vuong {
+    border-radius: 0.3rem;
+    padding: 1rem;
+    margin-right: 2rem;
+}
+.title__modalchitietthanhtoan {
+    font-size: x-large;
+    color:white;
+    font-weight: bold;
+}
+.backgroud__modal__brandcolor {
+    background-color   : rgb(253, 253, 253);
+    background-color: var(--brand-color);
+    border-bottom: 1px solid var(--brand-color);
+    border-top: 1px solid var(--brand-color);
+    border-radius: 0.5rem;
+}
+.border-radius {
+    border-radius: 0.5rem !important;
+}
+.modal {
+    border-radius: 0.5rem;
+}
+.btnmodal {
+    background-color: whitesmoke;
+    color: #0f294d ;
+}
+.thongtinthanhtoannganhang {
+    display: flex;
+    justify-content: space-between;
+}
+.tennganhangthanhtoan {
+    color: brown;
+    font-weight: bold;
+}
+.anhqrthanhtoan {
+    width: auto;
+    height: 20rem;
+}
+.thongtinnganhang {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+.motacachgiaodich {
+    color: #0f294d;
+    font-size: large;
+    font-weight: bold;
+}
+.cancel__thanhtoan {
+    padding: 1rem;
+    background-color: whitesmoke;
+    color: black;
+    width: 150px;
+    border-radius: 0.3rem;
+}

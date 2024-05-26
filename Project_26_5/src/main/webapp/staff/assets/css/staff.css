@@ -1,0 +1,14 @@
+.navbar{
+	
+}
+ 
+ .navbar-nav li>a:focus, .navbar-nav li>a:hover {
+    text-decoration: none;
+    background-color: var(--brand-color);
+    border-radius: 0.5rem;
+    color: var(--white-color);
+}
+
+.img-bg-home {
+
+}
