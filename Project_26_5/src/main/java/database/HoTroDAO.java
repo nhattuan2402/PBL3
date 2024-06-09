@@ -69,8 +69,23 @@ public class HoTroDAO implements DAOInterface<HoTro>{
 
 	@Override
 	public void Update(HoTro t) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Update Hotro");
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE yeucauhotro SET tieude=?, email=?, thoigian=?, noidung=?, trangthaixuly=? WHERE id_hotro=?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, t.getTieuDe());
+			st.setString(2, t.getEmail());
+			st.setDate(3, t.getThoiGian());
+			st.setString(4, t.getMoTa());
+			st.setBoolean(5, t.isTrangThai());
+			st.setString(6, t.getMaHoTro());
+			
+			st.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -81,8 +96,28 @@ public class HoTroDAO implements DAOInterface<HoTro>{
 
 	@Override
 	public HoTro selectByID(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		HoTro hoTro = null;
+	    try {
+	        Connection con = JDBCUtil.getConnection();
+	        String sql = "SELECT * FROM yeucauhotro WHERE id_hotro=?";
+	        PreparedStatement st = con.prepareStatement(sql);
+	        st.setString(1, id);
+	        ResultSet rs = st.executeQuery();
+	        if (rs.next()) {
+	            String maHoTro = rs.getString("id_hotro");
+	            String tieuDe = rs.getString("tieude");
+	            String email = rs.getString("email");
+	            Date thoiGian = rs.getDate("thoigian");
+	            String mota = rs.getString("noidung");
+	            boolean trangThai = rs.getBoolean("trangthaixuly");
+	            hoTro = new HoTro(maHoTro, tieuDe, email, thoiGian, mota, trangThai);
+	        }
+	        rs.close();
+	        JDBCUtil.closeConnection(con);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return hoTro;
 	}
 
 	public ArrayList<HoTro> timKiemHoTro(String email, String thoiGian, String trangThai) {

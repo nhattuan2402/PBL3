@@ -92,41 +92,30 @@ if (allHoTro == null ){
              <div class="modal fade" id="xoachuyenbay" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <form action="#" method="post">
-                    <div class="themchuyenbay">
+                    <div class="themchuyenbay" id="thongtinchitiet">
                         <div class="themchuyenbay-title">
                             Thông Tin Chi Tiết Yêu Cầu Khách Hàng
                         </div>
                         <div class="vungchua__themchuyenbay">
-
+							
                                 <div class="themchuyenbay__dong">
                                     <div class="themchuyenbay__phantu">
                                         <div class="label"><label for="ngaybaychuyenbaychinhsua">Email Khách Hàng</label></div>
-                                        <div class="noidungthechitietCSKH">ndtrg281@gmail.com</div>
+                                        <div class="noidungthechitietCSKH email"></div>
                                     </div>
                                     <div class="themchuyenbay__phantu">
                                         <div class="label"><label for="giobaychuyenbaychinhsua">Thời Gian Yêu Cầu</label></div>
-                                        <div class="noidungthechitietCSKH">2024-05-17</div>
+                                        <div class="noidungthechitietCSKH thoigian"></div>
                                     </div>
                                 </div>
                                 <div class="themchuyenbay__phantu">
                                     <div class="label"><label for="giobaychuyenbaychinhsua">Mô Tả Yêu Cầu</label></div>
-                                    <div class="noidungthechitietCSKH">Quá trời quá đất hahahaha hôm nay trời nắng không mưa đồ đồ </div>
+                                    <div class="noidungthechitietCSKH tieude"></div>
                                 </div>
                                 <div class="themchuyenbay__phantu">
                                     <div class="label"><label for="giobaychuyenbaychinhsua motachitietyeucau">Mô Tả Chi Tiết</label></div>
-                                    <div class="noidungthechitietCSKH">
-                                        Thơ là hình thức nghệ thuật dùng từ trong ngôn ngữ làm chất liệu và sự chọn lọc từ cũng như tổ hợp của chúng được sắp xếp dưới hình thức
-                                         logic nhất định tạo nên hình ảnh hay gợi cảm âm thanh có tính thẩm mĩ cho người đọc, người nghe. Từ thơ thường được đi kèm với từ câu để chỉ
-                                          một câu thơ, hay với từ bài để chỉ một bài thơ. Một câu thơ là một hình thức câu cô đọng, truyền đạt một hoặc nhiều hình ảnh, có ý nghĩa cho người đọc, 
-                                          và hoàn chỉnh trong cấu trúc ngữ pháp. Một câu thơ có thể đứng nguyên một mình. Một bài thơ là tổ hợp của các câu thơ. Tính cô đọng trong số lượng từ, 
-                                          tính tượng hình và dư âm thanh nhạc trong thơ biến nó thành một hình thức nghệ thuật độc đáo, tách biệt hẳn khỏi các hình thức nghệ thuật khác.
-                                     </div>
+                                    <div class="noidungthechitietCSKH mota"></div>
                                 </div>
-                        </div>
-
-                        <div class="modal-footer chantrangxoachuyen">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                            <button type="submit" class="btn btn-primary _btnChuyenTiep btnxacnhanxoachuyen">Xác Nhận</button>
                         </div>
                     </div>
                 </form>
@@ -217,7 +206,9 @@ if (allHoTro == null ){
                            	<div class="quanlychuyen-option-item"><%= h.getThoiGian() %></div>
                            	<div class="quanlychuyen-option-item"><%= status %></div>
                            	<div class="quanlychuyen-option-item quanlychuyen-option-item-tacvu">
-                                  <button type="button" class="btnTacVu btn__xoachuyen none-border" data-toggle="modal" data-target="#xoachuyenbay">
+                                  <button type="button" class="btnTacVu btn__xoachuyen none-border" data-toggle="modal" 
+                                  	data-target="#xoachuyenbay" data-email="<%= h.getEmail() %>" 
+                                  	data-thoigian="<%= h.getThoiGian() %>" data-tieude="<%= h.getTieuDe() %>" data-mota="<%= h.getMoTa()%>">
                                       <i class="fa-solid fa-info"></i>
                                   </button>
                              </div>
@@ -272,5 +263,24 @@ document.addEventListener("DOMContentLoaded", function() {
 			});
 		});
 	});
+document.addEventListener("DOMContentLoaded", function() {
+	console.log('DOM fully loaded and parsed');
+    var btnTacVuList = document.querySelectorAll('.btnTacVu');
+    btnTacVuList.forEach(function(btnTacVu) {
+        btnTacVu.addEventListener('click', function() {
+            // Lấy thuộc tính dữ liệu
+            var email = this.getAttribute('data-email');
+            var thoigian = this.getAttribute('data-thoigian');
+            var mota = this.getAttribute('data-mota');
+            var tieude = this.getAttribute('data-tieude');
+            
+            // Đặt dữ liệu vào các phần tử của modal
+            document.querySelector('#thongtinchitiet .noidungthechitietCSKH.email').innerText = email;
+            document.querySelector('#thongtinchitiet .noidungthechitietCSKH.thoigian').innerText = thoigian;
+            document.querySelector('#thongtinchitiet .noidungthechitietCSKH.tieude').innerText = tieude;
+            document.querySelector('#thongtinchitiet .noidungthechitietCSKH.mota').innerText = mota;
+        });
+    });
+});
 </script>
 </html>

@@ -127,8 +127,10 @@ public class nhanviencontroller extends HttpServlet {
 	        
 	        HoTroDAO hoTroDAO = new HoTroDAO();
 	        HoTro hoTro = hoTroDAO.selectByID(idHoTro);
+	        System.out.println("HoTro: " + hoTro.getMoTa().toString());
 	        
 	        if (hoTro != null && responseMessage != null && !responseMessage.trim().isEmpty()) {
+	        	System.out.println("Gửi email phản hồi");
 	            // Gửi email phản hồi
 	            sendEmailResponse(hoTro.getEmail(), responseMessage);
 
@@ -139,6 +141,12 @@ public class nhanviencontroller extends HttpServlet {
 	            // Điều hướng lại trang danh sách hỗ trợ
 	            response.sendRedirect("nhan-vien-controller?hanhDong=cham-soc-khach-hang");
 	        } else {
+	        	System.out.println("Không thể gửi email phản hồi");
+	        	if (hoTro == null) {
+					System.out.println("Yêu cầu hỗ trợ không tồn tại");
+				} else {
+					System.out.println("Nội dung phản hồi không hợp lệ");
+	        	}
 	            response.sendRedirect("nhan-vien-controller?hanhDong=cham-soc-khach-hang&error=invalid_request");
 	        }
 	    } catch (Exception e) {
@@ -148,9 +156,12 @@ public class nhanviencontroller extends HttpServlet {
 	}
 
 	private void sendEmailResponse(String email, String responseMessage) {
+		System.out.println("Gửi email phản hồi");
+		System.out.println("Email: " + email);
+		System.out.println("Nội dung phản hồi: " + responseMessage);
 	    String host = "smtp.gmail.com";
-	    final String from = "nhattuan242@gmail.com";
-	    final String password = "tqaacujvwitpnqsn";
+	    final String from = "phanvantoan.contact@gmail.com";
+	    final String password = "sewu piwq aywc afbb";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.host", host); // SMTP Host

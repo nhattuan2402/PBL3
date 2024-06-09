@@ -97,10 +97,7 @@ if (allHoTro == null ){
                             Thông Tin Chi Tiết Yêu Cầu Khách Hàng
                         </div>
                         <div class="vungchua__themchuyenbay">
-                                <div class="themchuyenbay__phantu">
-                                    <div class="label"><label for="MaCBXoa">Mã CSKH</label></div>
-                                    <input type="text" id="MaCBXoa" class="macbXoa" readonly>
-                                </div>
+
                                 <div class="themchuyenbay__dong">
                                     <div class="themchuyenbay__phantu">
                                         <div class="label"><label for="ngaybaychuyenbaychinhsua">Email Khách Hàng</label></div>
@@ -216,19 +213,19 @@ if (allHoTro == null ){
                    	<div class="flight-item  quanlychuyen-item">
                          <div class=" quanlychuyen-option" >
 							<div class="quanlychuyen-option-item mscb"><%= h.getMaHoTro() %></div>
-                             	<div class="quanlychuyen-option-item "><%= h.getEmail() %></div>
-                             	<div class="quanlychuyen-option-item"><%= h.getThoiGian() %></div>
-                             	<div class="quanlychuyen-option-item"><%= status %></div>
-                             	<div class="quanlychuyen-option-item quanlychuyen-option-item-tacvu">
-                                    <button type="button" class="btnTacVu btn__xoachuyen none-border" data-toggle="modal" data-target="#xoachuyenbay">
-                                        <i class="fa-solid fa-info"></i>
-                                    </button>
-                                </div>
-                             	<div class="quanlychuyen-option-item quanlychuyen-option-item-tacvu">
-	                             	<button type="button" class="btnTacVu none-border" data-toggle="modal" data-target="#phanhoi-CSKH" >
-                                		<i class="fa-regular fa-pen-to-square"></i>
-                                	</button>
-                        	</div>
+                           	<div class="quanlychuyen-option-item "><%= h.getEmail() %></div>
+                           	<div class="quanlychuyen-option-item"><%= h.getThoiGian() %></div>
+                           	<div class="quanlychuyen-option-item"><%= status %></div>
+                           	<div class="quanlychuyen-option-item quanlychuyen-option-item-tacvu">
+                                  <button type="button" class="btnTacVu btn__xoachuyen none-border" data-toggle="modal" data-target="#xoachuyenbay">
+                                      <i class="fa-solid fa-info"></i>
+                                  </button>
+                             </div>
+                            	<div class="quanlychuyen-option-item quanlychuyen-option-item-tacvu">
+                             	<button type="button" class="btnTacVu none-border" data-toggle="modal" data-target="#phanhoi-CSKH" >
+                               		<i class="fa-regular fa-pen-to-square"></i>
+                               	</button>
+                       		</div>
                          </div>
                       </div>
                    <% 
@@ -246,23 +243,18 @@ if (allHoTro == null ){
 </body>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    var btnTacVuList = document.querySelectorAll('.btnTacVu');
-    btnTacVuList.forEach(function(btnTacVu) {
-        btnTacVu.addEventListener('click', function() {
-            // Lấy mã hỗ trợ từ phần tử HTML tương ứng
-            var maHoTro = this.closest('.quanlychuyen 	-option').querySelector('.mscb').innerText;
-            // Đặt mã hỗ trợ vào input trong modal
-            //document.getElementById('MaCBXoa-2').value = maHoTro;
-            document.querySelectorAll('.macbXoa').forEach(function(input) {
-					input.value = maHoTro;
-				});
-				//('MaCBXoa').value = maHoTro;
-
-			});
+   var btnTacVuList = document.querySelectorAll('.btnTacVu');
+   btnTacVuList.forEach(function(btnTacVu) {
+       btnTacVu.addEventListener('click', function() {
+           // Lấy mã hỗ trợ từ phần tử HTML tương ứng
+           var maHoTro = this.closest('.quanlychuyen-option').querySelector('.mscb').innerText;
+           // Đặt mã hỗ trợ vào input trong modal
+           document.getElementById('MaCBXoa').value = maHoTro;
 		});
 	});
+});
 
-	document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
 		var selectBox = document.getElementById('statusFilter');
 		var flightItems = document.querySelectorAll('.flight-item');
 
